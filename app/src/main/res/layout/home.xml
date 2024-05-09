@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".home">
+
+    <!-- popple 로고 -->
+    <TextView
+        android:id="@+id/TextResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#CCA99EF1"
+        android:text=" POPPLE"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <!-- 스크롤뷰 -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/TextResult"
+        android:layout_above="@id/LinearLayoutBottom">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- 첫 번째 이미지뷰 -->
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/aaa" />
+
+            <!-- 첫 번째 텍스트뷰 -->
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="수키도키공장"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <!-- 두 번째 이미지뷰 -->
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/bbb" />
+
+            <!-- 두 번째 텍스트뷰 -->
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="서천 맥문동 조향실"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <!-- 세 번째 이미지뷰 -->
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ccc" />
+
+            <!-- 세 번째 텍스트뷰 -->
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="눈사람 눙눙이 팝업스토어"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <!-- 네 번째 이미지뷰 -->
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ddd" />
+
+            <!-- 네 번째 텍스트뷰 -->
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="로지텍G 팝업스토어"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <!-- 다섯 번째 이미지뷰 -->
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/eee" />
+
+            <!-- 다섯 번째 텍스트뷰 -->
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="마뗑킴 스페셜 스토어"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <!-- 여섯 번째 이미지뷰 -->
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/fff" />
+
+            <!-- 여섯 번째 텍스트뷰 -->
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="가나 초콜릿 하우스 시즌3"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 하단 사진들 -->
+    <LinearLayout
+        android:id="@+id/LinearLayoutBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#CCA99EF1"
+        android:layout_alignParentBottom="true">
+
+        <!-- 하단 사진 1 -->
+        <ImageView
+            android:id="@+id/imageViewBottom1"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/backbutton" />
+
+        <!-- 하단 사진 2 -->
+        <ImageView
+            android:id="@+id/imageViewBottom2"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/mapbutton" />
+
+        <!-- 하단 사진 3 -->
+        <ImageView
+            android:id="@+id/imageViewBottom3"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/homebutton" />
+
+        <!-- 하단 사진 4 -->
+        <ImageView
+            android:id="@+id/imageViewBottom4"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/chatbutton" />
+
+        <!-- 하단 사진 5 -->
+        <ImageView
+            android:id="@+id/imageViewBottom5"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/personbutton" />
+
+    </LinearLayout>
+</RelativeLayout>
