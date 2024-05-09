@@ -6,21 +6,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-
+import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 public class googlemap extends AppCompatActivity implements OnMapReadyCallback {
-
 
     private GoogleMap mMap;
     private EditText searchEditText;
@@ -69,6 +66,7 @@ public class googlemap extends AppCompatActivity implements OnMapReadyCallback {
                 Address address = addresses.get(0);
                 LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
                 moveCameraToLocation(latLng);
+                addMarkerToLocation(latLng, location); // 검색한 위치에 마커 추가
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -78,5 +76,11 @@ public class googlemap extends AppCompatActivity implements OnMapReadyCallback {
     // 가져온 좌표로 지도 이동
     private void moveCameraToLocation(LatLng latLng) {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15)); // 이동한 위치로 지도 이동 및 줌 레벨 조정
+    }
+
+    // 검색한 위치에 마커 추가
+    private void addMarkerToLocation(LatLng latLng, String locationName) {
+        mMap.clear(); // 기존 마커 제거
+        mMap.addMarker(new MarkerOptions().position(latLng).title(locationName)); // 새로운 마커 추가
     }
 }
