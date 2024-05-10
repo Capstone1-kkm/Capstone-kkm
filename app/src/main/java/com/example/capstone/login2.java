@@ -1,4 +1,3 @@
-//회원가입 코드
 package com.example.capstone;
 
 import android.content.Intent;
@@ -19,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.auth.FirebaseUser;
+
 public class login2 extends AppCompatActivity {
 
     private FirebaseAuth mAuth; //Firebase 인증 선언
@@ -95,7 +95,4 @@ public class login2 extends AppCompatActivity {
         finish();
 
     }
-
-
-
 }
