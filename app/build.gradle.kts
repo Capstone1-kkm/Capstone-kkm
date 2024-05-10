@@ -45,4 +45,7 @@ dependencies {
     //firebase sdk 추가
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
     implementation("com.google.firebase:firebase-analytics")
+    //firebase 회원, 로그인 위한 인증 추가
+    implementation("com.google.firebase:firebase-auth")
+
 }
