@@ -32,23 +32,17 @@
         android:layout_gravity="center_horizontal"
         android:orientation="vertical" >
         <EditText
-            android:id="@+id/editTextId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:hint="아이디를 입력하세요" />
+        android:id="@+id/editTextEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="이메일을 입력하세요" />
         <EditText
             android:id="@+id/editTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:hint="비밀번호를 입력하세요" />
-        <EditText
-            android:id="@+id/editTextEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:hint="이메일을 입력하세요" />
         <EditText
             android:id="@+id/editTextNickname"
             android:layout_width="match_parent"
