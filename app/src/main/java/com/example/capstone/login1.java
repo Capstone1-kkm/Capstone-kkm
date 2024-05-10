@@ -71,7 +71,10 @@ public class login1 extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // 로그인 성공
                             Toast.makeText(login1, "로그인 완료", Toast.LENGTH_LONG).show();
-                            // 여기서 다음 화면으로 이동하도록 코드를 작성하면 됩니다.
+                            // 여기서 다음 화면으로 이동하도록 코드를 작성하면 됩니다. login1 화면에서 home화면으로 이동하게끔 설정부탁
+                            Intent intent = new Intent(login1.this, home.class);
+                            startActivity(intent);
+                            finish(); // 현재 액티비티 종료
 
                         } else {
                             // 로그인 실패
