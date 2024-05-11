@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
 
-        <!-- login1,2 액티비티 추가 -->
+        <!-- login1,2, 기타등등.. 액티비티 추가 -->
         <activity android:name=".login1" />
         <activity android:name=".login2" />
         <activity android:name=".googlemap" />

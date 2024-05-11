@@ -11,4 +11,5 @@ public class store1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.store1);
     }
+
 }
