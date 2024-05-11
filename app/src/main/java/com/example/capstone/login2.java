@@ -2,6 +2,7 @@ package com.example.capstone;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +31,10 @@ public class login2 extends AppCompatActivity {
         Button buttonSignUp = findViewById(R.id.buttonSignUp);
 
         mAuth = FirebaseAuth.getInstance(); //FirebaseAuth 객체 초기화
+
+        // 비밀번호 입력란에 inputType을 PASSWORD로 설정하여 숨겨진 문자로 표시되도록 함
+        EditText passwordEditText = findViewById(R.id.editTextPassword);
+        passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
         findViewById(R.id.buttonSignUp).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +95,7 @@ public class login2 extends AppCompatActivity {
         }
     }
     private void goToHomeActivity(){
-        Intent intent = new Intent(this, home.class);
+        Intent intent = new Intent(this, login1.class);
         startActivity(intent);
         finish();
 
