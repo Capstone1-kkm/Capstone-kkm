@@ -2,6 +2,7 @@ package com.example.capstone;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,6 +17,8 @@ public class mypage extends Activity {
     TextView loginTextView;
     boolean isLoggedIn = false;
     private static final int LOGIN_REQUEST_CODE = 1;
+    private static final String PREF_NAME = "login_pref";
+    private static final String KEY_LOGGED_IN = "logged_in";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +35,13 @@ public class mypage extends Activity {
                 startActivityForResult(intent, LOGIN_REQUEST_CODE);
             }
         });
+
+        // 앱 시작 시 로그아웃 상태로 초기화
+        SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        isLoggedIn = prefs.getBoolean(KEY_LOGGED_IN, false);
         updateGreeting();
 
-        // 뒤로가기 버튼 눌렀을때 이전 스택에 쌓인 액티비티로 이동하게 됨
+        // 뒤로가기 버튼 눌렀을 때 이전 스택에 쌓인 액티비티로 이동
         ImageView imageView = findViewById(R.id.imageViewBottom1);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +52,6 @@ public class mypage extends Activity {
                 startActivity(intent);
             }
         });
-
     }
 
     @Override
@@ -54,6 +60,10 @@ public class mypage extends Activity {
         if (requestCode == LOGIN_REQUEST_CODE && resultCode == RESULT_OK) {
             // 로그인 성공 시 사용자 이름을 받아와 환영 메시지를 업데이트
             updateGreeting();
+
+            SharedPreferences.Editor editor = getSharedPreferences(PREF_NAME, MODE_PRIVATE).edit();
+            editor.putBoolean(KEY_LOGGED_IN, true);
+            editor.apply();
         }
     }
 
@@ -64,12 +74,24 @@ public class mypage extends Activity {
             if (displayName != null && !displayName.isEmpty()) {
                 greetingTextView.setText(displayName + "님, 안녕하세요");
                 isLoggedIn = true;
-                loginTextView.setText("");
+                loginTextView.setText("로그아웃"); // "로그아웃"으로 텍스트 설정
             }
-        } else{
+        } else {
+            // 사용자가 로그인하지 않은 경우
             greetingTextView.setText("비회원님, 안녕하세요");
             isLoggedIn = false;
+            loginTextView.setText("로그인 하려면 클릭하세요"); // "로그인 하려면 클릭하세요"로 텍스트 설정
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 앱이 재개되면 로그인 상태를 다시 확인
+        SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        isLoggedIn = prefs.getBoolean(KEY_LOGGED_IN, false);
+        if (!isLoggedIn) {
+            updateGreeting();
         }
     }
 }
-
