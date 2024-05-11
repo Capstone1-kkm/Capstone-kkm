@@ -21,7 +21,8 @@
         android:layout_marginTop="13dp"
         android:layout_marginLeft="13dp"
         android:textSize="20dp"
-        android:text="비회원님, 안녕하세요" />
+        android:text="비회원님, 안녕하세요"
+        android:onClick="onLoginClick"/>
 
     <!-- 클릭시 로그인 화면으로 전환 -->
     <TextView
@@ -34,6 +35,18 @@
         android:textColor="@color/purple"
         android:textSize="13dp"
         tools:ignore="TextSizeCheck" />
+
+    <ImageView
+        android:id="@+id/logoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="로그아웃"
+        android:clickable="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"/>
+
 
     <!-- 위시리스트 -->
     <LinearLayout

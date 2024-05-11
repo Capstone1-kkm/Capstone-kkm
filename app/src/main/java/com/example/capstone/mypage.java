@@ -36,6 +36,8 @@ public class mypage extends Activity {
             }
         });
 
+        loginTextView.setTextColor(getResources().getColor(R.color.login_text_color));
+
         // 앱 시작 시 로그아웃 상태로 초기화
         SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         isLoggedIn = prefs.getBoolean(KEY_LOGGED_IN, false);
@@ -47,6 +49,21 @@ public class mypage extends Activity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        // 로그아웃 버튼 설정
+        ImageView logoutButton = findViewById(R.id.logoutButton);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 로그아웃 상태 저장
+                SharedPreferences.Editor editor = getSharedPreferences(PREF_NAME, MODE_PRIVATE).edit();
+                editor.putBoolean(KEY_LOGGED_IN, false);
+                editor.apply();
+
+                // 화면 업데이트
+                updateGreeting();
             }
         });
 
