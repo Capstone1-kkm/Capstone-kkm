@@ -39,6 +39,8 @@
         <activity android:name=".login2" />
         <activity android:name=".googlemap" />
         <activity android:name=".home" />
+        <activity android:name=".mypage"/>
+
 
 
         <meta-data android:name="com.google.android.maps.v2.API_KEY"
