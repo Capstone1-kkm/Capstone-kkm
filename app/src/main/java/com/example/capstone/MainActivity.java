@@ -20,8 +20,8 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                // login1 화면으로 이동하는 Intent 생성
-                Intent intent = new Intent(MainActivity.this, login1.class);
+                // mypage 화면으로 이동하는 Intent 생성
+                Intent intent = new Intent(MainActivity.this, home.class);
                 startActivity(intent); // LoginActivity 시작
 
 

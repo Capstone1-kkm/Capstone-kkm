@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -56,6 +57,16 @@ public class login1 extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // 뒤로가기 버튼 눌렀을때 이전 스택에 쌓인 액티비티로 이동하게 됨
+        ImageView imageView = findViewById(R.id.imageViewBottom1);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
     }
 
     // 사용자 로그인을 처리하는 메소드
@@ -83,7 +94,7 @@ public class login1 extends AppCompatActivity {
                             // 로그인 성공 시
                             Toast.makeText(login1, "로그인 완료", Toast.LENGTH_LONG).show();
                             // 로그인이 성공한 경우 home 화면으로 이동하는 인텐트 생성 및 실행
-                            Intent intent = new Intent(login1.this, home.class);
+                            Intent intent = new Intent(login1.this, mypage.class);
                             startActivity(intent);
                             finish(); // 현재 액티비티 종료
 
