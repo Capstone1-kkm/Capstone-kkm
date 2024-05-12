@@ -14,6 +14,7 @@ public class home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
+
         // 뒤로가기 버튼 눌렀을때 이전 스택에 쌓인 액티비티로 이동하게 됨
         ImageView imageView;
         imageView = findViewById(R.id.imageViewBottom2);
