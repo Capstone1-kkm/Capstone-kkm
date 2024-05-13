@@ -21,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.auth.FirebaseUser;
 
+import android.widget.Toast;
+
 public class login2 extends AppCompatActivity {
 
     private FirebaseAuth mAuth; //Firebase 인증 선언
@@ -36,6 +38,10 @@ public class login2 extends AppCompatActivity {
         // 비밀번호 입력란에 inputType을 PASSWORD로 설정하여 숨겨진 문자로 표시되도록 함
         EditText passwordEditText = findViewById(R.id.editTextPassword);
         passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+        // 비밀번호 2차 확인 입력란도 숨겨진 문자로 설정
+        EditText passwordConfirmEditText = findViewById(R.id.editTextPassword1);
+        passwordConfirmEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
         findViewById(R.id.buttonSignUp).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,17 +77,23 @@ public class login2 extends AppCompatActivity {
     private void signUp(){
         EditText emailEditText = findViewById(R.id.editTextEmail);
         EditText passwordEditText = findViewById(R.id.editTextPassword);
+        EditText passwordConfirmEditText = findViewById(R.id.editTextPassword1); // 새로 추가된 비밀번호 2차 확인 필드
         EditText nicknameEditText = findViewById(R.id.editTextNickname);
         EditText birthdayEditText = findViewById(R.id.editTextBirthday);
 
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
+        String passwordConfirm = passwordConfirmEditText.getText().toString().trim(); // 새로운 비밀번호 2차 확인 값
         String nickname = nicknameEditText.getText().toString().trim();
         String birthday = birthdayEditText.getText().toString().trim();
 
-
+        // 이메일, 비밀번호, 닉네임, 생년월일이 모두 입력되었는지 확인
         if(email.isEmpty() || password.isEmpty() || nickname.isEmpty() || birthday.isEmpty()){
             Toast.makeText(this, "모든 항목 다 입력하세요.", Toast.LENGTH_SHORT).show();
+        }
+        // 새로 추가된 비밀번호 2차 확인 값이 비밀번호와 일치하는지 확인
+        else if (!password.equals(passwordConfirm)) {
+            Toast.makeText(this, "비밀번호를 다르게 입력하였습니다.", Toast.LENGTH_SHORT).show();
         }
         else{
             mAuth.createUserWithEmailAndPassword(email, password)
@@ -117,10 +129,10 @@ public class login2 extends AppCompatActivity {
                     });
         }
     }
+
     private void goToHomeActivity(){
         Intent intent = new Intent(this, login1.class);
         startActivity(intent);
         finish();
-
     }
 }

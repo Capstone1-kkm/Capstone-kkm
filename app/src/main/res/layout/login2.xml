@@ -30,32 +30,44 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center_horizontal"
-        android:padding="16dp"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="16dp">
+
         <EditText
-        android:id="@+id/editTextEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:hint="이메일을 입력하세요" />
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:hint="이메일을 입력하세요" />
+
         <EditText
             android:id="@+id/editTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:hint="비밀번호를 입력하세요" />
+
+        <EditText
+            android:id="@+id/editTextPassword1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:hint="비밀번호 확인" />
+
         <EditText
             android:id="@+id/editTextNickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:hint="닉네임을 입력하세요" />
+
         <EditText
             android:id="@+id/editTextBirthday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:hint="생년월일을 입력하세요" />
+
         <Button
             android:id="@+id/buttonSignUp"
             android:layout_width="wrap_content"
