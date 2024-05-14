@@ -7,67 +7,731 @@
 
 
 
-       <!-- 메뉴 바 -->
-       <LinearLayout
-           android:id="@+id/LinearLayoutBottom"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_alignParentBottom="true"
-           android:background="@color/cardview_light_background"
-           android:orientation="horizontal">
+    <!-- 스크롤뷰 -->
 
-           <!-- 하단 사진 1 -->
-           <ImageView
-               android:id="@+id/imageViewBottom1"
-               android:layout_width="0dp"
-               android:layout_height="50dp"
-               android:layout_weight="1"
-               android:adjustViewBounds="true"
-               android:scaleType="fitCenter"
-               android:src="@drawable/back" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarThumbVertical="@android:color/transparent"
+        android:layout_above="@+id/LinearLayoutBottom">
 
-           <!-- 하단 사진 2 -->
-           <ImageView
-               android:id="@+id/imageViewBottom2"
-               android:layout_width="0dp"
-               android:layout_height="50dp"
-               android:layout_weight="1"
-               android:adjustViewBounds="true"
-               android:scaleType="fitCenter"
-               android:src="@drawable/map1" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:orientation="vertical">
 
-           <!-- 하단 사진 3 -->
-           <ImageView
-               android:id="@+id/imageViewBottom3"
-               android:layout_width="0dp"
-               android:layout_height="50dp"
-               android:layout_weight="1"
-               android:adjustViewBounds="true"
+            <!-- 이미지 다섯개 자동 슬라이드 -->
+            <ViewFlipper
+                android:id="@+id/View"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoStart="true"
+                android:flipInterval="2000">
 
-               android:scaleType="fitCenter"
-               android:src="@drawable/home3" />
+                <!-- 첫 번째 이미지 -->
 
-           <!-- 하단 사진 4 -->
-           <ImageView
-               android:id="@+id/imageViewBottom4"
-               android:layout_width="0dp"
-               android:layout_height="50dp"
-               android:layout_weight="1"
-               android:adjustViewBounds="true"
-               android:scaleType="fitCenter"
-               android:src="@drawable/chat1" />
+                <ImageView
+                    android:id="@+id/pokemon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="415dp"
+                    android:scaleType="centerCrop"/>
 
-           <!-- 하단 사진 5 -->
-           <ImageView
-               android:id="@+id/imageViewBottom5"
-               android:layout_width="0dp"
-               android:layout_height="50dp"
-               android:layout_weight="1"
-               android:adjustViewBounds="true"
-               android:scaleType="fitCenter"
-               android:src="@drawable/user3" />
+                <!-- 두 번째 이미지 -->
+                <ImageView
+                    android:id="@+id/guam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="415dp"
+                    android:scaleType="centerCrop"/>
 
-       </LinearLayout>
+                <!-- 세 번째 이미지 -->
+                <ImageView
+                    android:id="@+id/tiger"
+                    android:layout_width="wrap_content"
+                    android:layout_height="415dp"
+                    android:scaleType="centerCrop"/>
+
+                <!-- 네 번째 이미지 -->
+                <ImageView
+                    android:id="@+id/bromton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="415dp"
+                    android:scaleType="centerCrop"/>
+
+                <!-- 다섯 번째 이미지 -->
+                <ImageView
+                    android:id="@+id/hippop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="415dp"
+                    android:scaleType="centerCrop"/>
+            </ViewFlipper>
+
+            <!-- 팝업스토어 리스트 -->
+            <TextView
+                android:id="@+id/reco"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="17dp"
+                android:text="팝플의 추천!"
+                android:textStyle="bold" />
+
+            <!-- 첫 번째 팝업 스토어 표시 -->
+            <LinearLayout
+                android:id="@+id/firstpopup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp" >
+
+                <!-- 첫 번째 팝업 스토어 이미지 -->
+                <ImageView
+                    android:id="@+id/yumi"
+                    android:layout_width="200dp"
+                    android:layout_height="218dp"
+                    android:layout_above="@id/View" />
+
+                <!-- 첫 번째 팝업스토어 설명 레이아웃 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/pop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="팝업 스토어"
+                        android:textColor="@color/lime_green"
+                        android:textSize="13dp"
+                        tools:ignore="TextSizeCheck" />
+
+                    <TextView
+                        android:id="@+id/yumicell"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="유미의 세포들 팝업 스토어"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        tools:ignore="TextSizeCheck" />
+
+                    <TextView
+                        android:id="@+id/day"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2024.05.10 ~ 2024.05.23"
+                        android:textColor="@color/gray"
+                        android:textSize="13dp"
+                        tools:ignore="TextSizeCheck" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 두 번째 팝업 스토어 표시 -->
+            <LinearLayout
+                android:id="@+id/secondpopup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp" >
+
+                <!-- 두 번째 팝업 스토어 이미지 -->
+                <ImageView
+                    android:id="@+id/cloud"
+                    android:layout_width="200dp"
+                    android:layout_height="218dp"
+                    android:layout_above="@id/View" />
+
+                <!-- 두 번째 팝업스토어 설명 레이아웃 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/popup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="팝업 스토어"
+                        android:textColor="@color/lime_green"
+                        android:textSize="13dp"
+                        tools:ignore="TextSizeCheck" />
+
+                    <TextView
+                        android:id="@+id/cloudt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="A Cloud Traveler"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        tools:ignore="TextSizeCheck" />
+
+                    <TextView
+                        android:id="@+id/day2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2024.04.23 ~ 2024.07.28"
+                        android:textColor="@color/gray"
+                        android:textSize="13dp"
+                        tools:ignore="TextSizeCheck" />
+                </LinearLayout>
+            </LinearLayout>
 
 
+            <!-- 세 번째 팝업 스토어 표시 -->
+            <LinearLayout
+                android:id="@+id/thirdpopup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp" >
+
+                <!-- 세 번째 팝업 스토어 이미지 -->
+                <ImageView
+                    android:id="@+id/mokoko"
+                    android:layout_width="200dp"
+                    android:layout_height="218dp"
+                    android:layout_above="@id/View" />
+
+                <!-- 세 번째 팝업스토어 설명 레이아웃 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/popups"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="팝업 스토어"
+                        android:textSize="13dp"
+                        android:textColor="@color/lime_green" />
+
+                    <TextView
+                        android:id="@+id/mokokop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="15dp"
+                        android:text="로스트아크 모코코 버거피크닉" />
+
+                    <TextView
+                        android:id="@+id/day3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/gray"
+                        android:textSize="13dp"
+                        android:text="2024.05.11 ~ 2024.06.02" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 네 번째 팝업 스토어 표시 -->
+            <LinearLayout
+                android:id="@+id/fourpopup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp" >
+
+                <!-- 네 번째 팝업 스토어 이미지 -->
+                <ImageView
+                    android:id="@+id/blue"
+                    android:layout_width="200dp"
+                    android:layout_height="218dp"
+                    android:layout_above="@id/View" />
+
+                <!-- 네 번째 팝업스토어 설명 레이아웃 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/popupst"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="팝업 스토어"
+                        android:textSize="13dp"
+                        android:textColor="@color/lime_green" />
+
+                    <TextView
+                        android:id="@+id/bluet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="15dp"
+                        android:text="THE BLUE EXPRESS" />
+
+                    <TextView
+                        android:id="@+id/day4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/gray"
+                        android:textSize="13dp"
+                        android:text="2024.05.10 ~ 2024.05.20" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="이런건 어떠세요?"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp" />
+
+            <!-- 팝업 추천 수평 스크롤뷰 -->
+            <HorizontalScrollView
+                android:id="@+id/Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:scrollbarThumbHorizontal="@android:color/transparent">
+
+                <!-- 스크롤뷰가 하나의 자식만 받기 때문에 생성한 리니어레이아웃 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <!-- 첫 번째 스크롤뷰 팝업스토어 -->
+                    <LinearLayout
+                        android:id="@+id/firsthor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/dream"
+                            android:layout_width="200dp"
+                            android:layout_height="228dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="팝업 스토어"
+                            android:textColor="@color/lime_green"
+                            android:textSize="13dp" />
+
+                        <TextView
+                            android:id="@+id/dream1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:textSize="15dp"
+                            android:text="르무통 팝업스토어" />
+
+                        <TextView
+                            android:id="@+id/day5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/gray"
+                            android:textSize="13dp"
+                            android:text="2024.04.10 ~ 2024.06.01" />
+                    </LinearLayout>
+
+                    <!-- 두 번째 스크롤뷰 팝업스토어 -->
+                    <LinearLayout
+                        android:id="@+id/secondhor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/um"
+                            android:layout_width="200dp"
+                            android:layout_height="228dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="팝업 스토어"
+                            android:textColor="@color/lime_green"
+                            android:textSize="13dp" />
+
+                        <TextView
+                            android:id="@+id/um1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:textSize="15dp"
+                            android:text="엄브로 100주년 &lt;MR.UM's CLEANERS>" />
+
+                        <TextView
+                            android:id="@+id/day6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2024.02.02 ~ 2024.06.26"
+                            android:textColor="@color/gray"
+                            android:textSize="13dp"
+                            tools:ignore="TextSizeCheck" />
+                    </LinearLayout>
+
+                    <!-- 세 번째 스크롤뷰 팝업스토어 -->
+                    <LinearLayout
+                        android:id="@+id/thirdhor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/suki"
+                            android:layout_width="200dp"
+                            android:layout_height="228dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="팝업 스토어"
+                            android:textColor="@color/lime_green"
+                            android:textSize="13dp" />
+
+                        <TextView
+                            android:id="@+id/suki1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:textSize="15dp"
+                            android:text="수키도키 팝업 &lt;불지옥바캉스>" />
+
+                        <TextView
+                            android:id="@+id/day7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2024.05.03 ~ 2024.05.16"
+                            android:textColor="@color/gray"
+                            android:textSize="13dp"
+                            tools:ignore="TextSizeCheck" />
+                    </LinearLayout>
+
+                    <!-- 네 번째 스크롤뷰 팝업스토어 -->
+                    <LinearLayout
+                        android:id="@+id/fourhor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/ostkaka"
+                            android:layout_width="200dp"
+                            android:layout_height="228dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="팝업 스토어"
+                            android:textColor="@color/lime_green"
+                            android:textSize="13dp" />
+
+                        <TextView
+                            android:id="@+id/ostkaka1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:textSize="15dp"
+                            android:text="OSTKAKA 팝업스토어" />
+
+                        <TextView
+                            android:id="@+id/day8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2024.05.10 ~ 2024.05.19"
+                            android:textColor="@color/gray"
+                            android:textSize="13dp"
+                            tools:ignore="TextSizeCheck" />
+                    </LinearLayout>
+
+                    <!-- 다섯번째 스크롤뷰 팝업스토어 -->
+                    <LinearLayout
+                        android:id="@+id/fivehor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/sok"
+                            android:layout_width="200dp"
+                            android:layout_height="228dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="팝업 스토어"
+                            android:textColor="@color/lime_green"
+                            android:textSize="13dp" />
+
+                        <TextView
+                            android:id="@+id/sok1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:textSize="15dp"
+                            android:text="속마음 비밀해제" />
+
+                        <TextView
+                            android:id="@+id/day9"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2024.04.09 ~ 2024.06.09"
+                            android:textColor="@color/gray"
+                            android:textSize="13dp"
+                            tools:ignore="TextSizeCheck" />
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="스토어 외에도 다양한 팝업!"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp" />
+
+            <!-- 팝업 추천 수평 스크롤뷰 -->
+            <HorizontalScrollView
+                android:id="@+id/Horizontal2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="10dp"
+                android:scrollbarThumbHorizontal="@android:color/transparent">
+
+                <!-- 스크롤뷰가 하나의 자식만 받기 때문에 생성한 리니어레이아웃 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <!-- 첫 번째 스크롤뷰 팝업스토어 -->
+                    <LinearLayout
+                        android:id="@+id/firsthor1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/cat"
+                            android:layout_width="200dp"
+                            android:layout_height="228dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="팝업 전시"
+                            android:textColor="@color/lime_green"
+                            android:textSize="13dp" />
+
+                        <TextView
+                            android:id="@+id/cat1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:textSize="15dp"
+                            android:text="요물, 우리를 홀린 고양이" />
+
+                        <TextView
+                            android:id="@+id/day10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2024.05.03 ~ 2024.08.18"
+                            android:textColor="@color/gray"
+                            android:textSize="13dp"
+                            tools:ignore="TextSizeCheck" />
+                    </LinearLayout>
+
+                    <!-- 두 번째 스크롤뷰 팝업스토어 -->
+                    <LinearLayout
+                        android:id="@+id/secondhor2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/damgom"
+                            android:layout_width="200dp"
+                            android:layout_height="228dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="팝업 카페 &amp; 레스토랑"
+                            android:textColor="@color/lime_green"
+                            android:textSize="13dp" />
+
+                        <TextView
+                            android:id="@+id/damgom1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:textSize="15dp"
+                            android:text="담곰이 팝업 카페" />
+
+                        <TextView
+                            android:id="@+id/day11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2024.05.24 ~ 2024.08.18"
+                            android:textColor="@color/gray"
+                            android:textSize="13dp"
+                            tools:ignore="TextSizeCheck" />
+                    </LinearLayout>
+
+                    <!-- 세 번째 스크롤뷰 팝업스토어 -->
+                    <LinearLayout
+                        android:id="@+id/thirdhor1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/paper"
+                            android:layout_width="200dp"
+                            android:layout_height="228dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="팝업 전시"
+                            android:textColor="@color/lime_green"
+                            android:textSize="13dp" />
+
+                        <TextView
+                            android:id="@+id/paper1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:textSize="15dp"
+                            android:text="모두의 노트 : MD 노트" />
+
+                        <TextView
+                            android:id="@+id/day12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2024.03.30 ~ 2024.08.25"
+                            android:textColor="@color/gray"
+                            android:textSize="13dp"
+                            tools:ignore="TextSizeCheck" />
+                    </LinearLayout>
+
+                    <!-- 네 번째 스크롤뷰 팝업스토어 -->
+                    <LinearLayout
+                        android:id="@+id/fourhor1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/office"
+                            android:layout_width="200dp"
+                            android:layout_height="228dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="팝업 기타"
+                            android:textColor="@color/lime_green"
+                            android:textSize="13dp" />
+
+                        <TextView
+                            android:id="@+id/office1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:textSize="15dp"
+                            android:text="장인성의 말랑한 오피스" />
+
+                        <TextView
+                            android:id="@+id/day13"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2024.03.30 ~ 2024.08.25"
+                            android:textColor="@color/gray"
+                            android:textSize="13dp"
+                            tools:ignore="TextSizeCheck" />
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:layout_above="@+id/LinearLayoutBottom"
+        android:background="@android:color/darker_gray"/>
+    <!-- 하단 사진들 -->
+    <LinearLayout
+        android:id="@+id/LinearLayoutBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/cardview_light_background"
+        android:layout_alignParentBottom="true"
+        tools:ignore="ExtraText">
+
+        <!-- 하단 사진 1 -->
+        <ImageView
+            android:id="@+id/imageViewBottom1"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/back" />
+
+        <!-- 하단 사진 2 -->
+        <ImageView
+            android:id="@+id/imageViewBottom2"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/map1" />
+
+        <!-- 하단 사진 3 -->
+        <ImageView
+            android:id="@+id/imageViewBottom3"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/home3" />
+
+        <!-- 하단 사진 4 -->
+        <ImageView
+            android:id="@+id/imageViewBottom4"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/chat1" />
+
+        <!-- 하단 사진 5 -->
+        <ImageView
+            android:id="@+id/imageViewBottom5"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/user3" />
+
+    </LinearLayout>
 </RelativeLayout>
