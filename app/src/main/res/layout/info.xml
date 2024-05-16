@@ -6,7 +6,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbarThumbVertical="@android:color/transparent">
 
         <LinearLayout
             android:id="@+id/info"
@@ -14,9 +15,40 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/icon2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                tools:ignore="InvalidId">
+
+                <ImageView
+                    android:id="@+id/backst"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/arrow2" />
+
+                <ImageView
+                    android:id="@+id/wishheart"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="363dp"
+                    android:src="@drawable/wishheart"
+                    tools:ignore="SpeakableTextPresentCheck" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:layout_above="@+id/icon2"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/darker_gray" />
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="387dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/cloud" />
 
             <TextView
