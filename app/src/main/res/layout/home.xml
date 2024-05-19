@@ -165,103 +165,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-
-            <!-- 세 번째 팝업 스토어 표시 -->
-            <LinearLayout
-                android:id="@+id/thirdpopup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp" >
-
-                <!-- 세 번째 팝업 스토어 이미지 -->
-                <ImageView
-                    android:id="@+id/mokoko"
-                    android:layout_width="200dp"
-                    android:layout_height="218dp"
-                    android:layout_above="@id/View" />
-
-                <!-- 세 번째 팝업스토어 설명 레이아웃 -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@+id/popups"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="팝업 스토어"
-                        android:textSize="13dp"
-                        android:textColor="@color/lime_green" />
-
-                    <TextView
-                        android:id="@+id/mokokop"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textSize="15dp"
-                        android:text="로스트아크 모코코 버거피크닉" />
-
-                    <TextView
-                        android:id="@+id/day3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/gray"
-                        android:textSize="13dp"
-                        android:text="2024.05.11 ~ 2024.06.02" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- 네 번째 팝업 스토어 표시 -->
-            <LinearLayout
-                android:id="@+id/fourpopup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp" >
-
-                <!-- 네 번째 팝업 스토어 이미지 -->
-                <ImageView
-                    android:id="@+id/blue"
-                    android:layout_width="200dp"
-                    android:layout_height="218dp"
-                    android:layout_above="@id/View" />
-
-                <!-- 네 번째 팝업스토어 설명 레이아웃 -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@+id/popupst"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="팝업 스토어"
-                        android:textSize="13dp"
-                        android:textColor="@color/lime_green" />
-
-                    <TextView
-                        android:id="@+id/bluet"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textSize="15dp"
-                        android:text="THE BLUE EXPRESS" />
-
-                    <TextView
-                        android:id="@+id/day4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/gray"
-                        android:textSize="13dp"
-                        android:text="2024.05.10 ~ 2024.05.20" />
-                </LinearLayout>
-            </LinearLayout>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -359,7 +262,7 @@
                             tools:ignore="TextSizeCheck" />
                     </LinearLayout>
 
-                    <!-- 네 번째 스크롤뷰 팝업스토어 -->
+                    <!-- 세 번째 스크롤뷰 팝업스토어 -->
                     <LinearLayout
                         android:id="@+id/fourhor"
                         android:layout_width="wrap_content"
@@ -392,44 +295,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="2024.05.10 ~ 2024.05.19"
-                            android:textColor="@color/gray"
-                            android:textSize="13dp"
-                            tools:ignore="TextSizeCheck" />
-                    </LinearLayout>
-
-                    <!-- 다섯번째 스크롤뷰 팝업스토어 -->
-                    <LinearLayout
-                        android:id="@+id/fivehor"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/sok"
-                            android:layout_width="200dp"
-                            android:layout_height="228dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="팝업 스토어"
-                            android:textColor="@color/lime_green"
-                            android:textSize="13dp" />
-
-                        <TextView
-                            android:id="@+id/sok1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                            android:textSize="15dp"
-                            android:text="속마음 비밀해제" />
-
-                        <TextView
-                            android:id="@+id/day9"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="2024.04.09 ~ 2024.06.09"
                             android:textColor="@color/gray"
                             android:textSize="13dp"
                             tools:ignore="TextSizeCheck" />
@@ -531,44 +396,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="2024.05.24 ~ 2024.08.18"
-                            android:textColor="@color/gray"
-                            android:textSize="13dp"
-                            tools:ignore="TextSizeCheck" />
-                    </LinearLayout>
-
-                    <!-- 네 번째 스크롤뷰 팝업스토어 -->
-                    <LinearLayout
-                        android:id="@+id/fourhor1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/office"
-                            android:layout_width="200dp"
-                            android:layout_height="228dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="팝업 기타"
-                            android:textColor="@color/lime_green"
-                            android:textSize="13dp" />
-
-                        <TextView
-                            android:id="@+id/office1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                            android:textSize="15dp"
-                            android:text="장인성의 말랑한 오피스" />
-
-                        <TextView
-                            android:id="@+id/day13"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="2024.03.30 ~ 2024.08.25"
                             android:textColor="@color/gray"
                             android:textSize="13dp"
                             tools:ignore="TextSizeCheck" />
