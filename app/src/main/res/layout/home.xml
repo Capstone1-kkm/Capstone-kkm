@@ -41,6 +41,7 @@
                     android:id="@+id/guam"
                     android:layout_width="wrap_content"
                     android:layout_height="415dp"
+                    android:src="@drawable/store2"
                     android:scaleType="centerCrop"/>
 
                 <!-- 세 번째 이미지 -->
@@ -48,6 +49,7 @@
                     android:id="@+id/tiger"
                     android:layout_width="wrap_content"
                     android:layout_height="415dp"
+                    android:src="@drawable/store3"
                     android:scaleType="centerCrop"/>
             </ViewFlipper>
 
@@ -74,7 +76,8 @@
                     android:id="@+id/yumi"
                     android:layout_width="200dp"
                     android:layout_height="218dp"
-                    android:layout_above="@id/View" />
+                    android:layout_above="@id/View"
+                    android:src="@drawable/store4"/>
 
                 <!-- 첫 번째 팝업스토어 설명 레이아웃 -->
                 <LinearLayout
@@ -97,7 +100,7 @@
                         android:id="@+id/yumicell"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="유미의 세포들 팝업 스토어"
+                        android:text="담곰이 카페"
                         android:textSize="15dp"
                         android:textStyle="bold"
                         tools:ignore="TextSizeCheck" />
@@ -106,7 +109,7 @@
                         android:id="@+id/day"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2024.05.10 ~ 2024.05.23"
+                        android:text="2024.05.24 ~ 2024.08.18"
                         android:textColor="@color/gray"
                         android:textSize="13dp"
                         tools:ignore="TextSizeCheck" />
@@ -126,7 +129,7 @@
                     android:layout_width="200dp"
                     android:layout_height="218dp"
                     android:layout_above="@id/View"
-                    android:src="@drawable/cloud" />
+                    android:src="@drawable/store5" />
 
                 <!-- 두 번째 팝업스토어 설명 레이아웃 -->
                 <LinearLayout
@@ -198,7 +201,8 @@
                         <ImageView
                             android:id="@+id/dream"
                             android:layout_width="200dp"
-                            android:layout_height="228dp" />
+                            android:layout_height="228dp"
+                            android:src="@drawable/store6"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -213,7 +217,7 @@
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:textSize="15dp"
-                            android:text="르무통 팝업스토어" />
+                            android:text="IKEA 팝업스토어 더현대 서울" />
 
                         <TextView
                             android:id="@+id/day5"
@@ -221,7 +225,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/gray"
                             android:textSize="13dp"
-                            android:text="2024.04.10 ~ 2024.06.01" />
+                            android:text="2024.03.19 ~ 2024.06.30" />
                     </LinearLayout>
 
                     <!-- 두 번째 스크롤뷰 팝업스토어 -->
@@ -235,7 +239,8 @@
                         <ImageView
                             android:id="@+id/um"
                             android:layout_width="200dp"
-                            android:layout_height="228dp" />
+                            android:layout_height="228dp"
+                            android:src="@drawable/store7"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -250,7 +255,7 @@
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:textSize="15dp"
-                            android:text="엄브로 100주년 &lt;MR.UM's CLEANERS>" />
+                            android:text="엄브로 100주년 MR.UM's CLEANERS" />
 
                         <TextView
                             android:id="@+id/day6"
@@ -273,7 +278,8 @@
                         <ImageView
                             android:id="@+id/ostkaka"
                             android:layout_width="200dp"
-                            android:layout_height="228dp" />
+                            android:layout_height="228dp"
+                            android:src="@drawable/store8"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -288,13 +294,13 @@
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:textSize="15dp"
-                            android:text="OSTKAKA 팝업스토어" />
+                            android:text="블레스문 팝업스토어" />
 
                         <TextView
                             android:id="@+id/day8"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="2024.05.10 ~ 2024.05.19"
+                            android:text="2024.05.11 ~ 2024.08.31"
                             android:textColor="@color/gray"
                             android:textSize="13dp"
                             tools:ignore="TextSizeCheck" />
@@ -336,7 +342,8 @@
                         <ImageView
                             android:id="@+id/cat"
                             android:layout_width="200dp"
-                            android:layout_height="228dp" />
+                            android:layout_height="228dp"
+                            android:src="@drawable/store9"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -374,12 +381,13 @@
                         <ImageView
                             android:id="@+id/damgom"
                             android:layout_width="200dp"
-                            android:layout_height="228dp" />
+                            android:layout_height="228dp"
+                            android:src="@drawable/store10"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="팝업 카페 &amp; 레스토랑"
+                            android:text="달리기 : 새는 날고 물고기는 헤엄치고 인간은 달린다"
                             android:textColor="@color/lime_green"
                             android:textSize="13dp" />
 
@@ -395,7 +403,7 @@
                             android:id="@+id/day11"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="2024.05.24 ~ 2024.08.18"
+                            android:text="2024.04.05 ~ 2024.07.28"
                             android:textColor="@color/gray"
                             android:textSize="13dp"
                             tools:ignore="TextSizeCheck" />
