@@ -1,3 +1,4 @@
+//스플래시 전환 코드
 package com.example.capstone;
 
 import android.content.Intent;
@@ -5,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // mypage 화면으로 이동하는 Intent 생성
-                Intent intent = new Intent(MainActivity.this, home.class);
+                Intent intent = new Intent(MainActivity.this, login1.class);
                 startActivity(intent); // LoginActivity 시작
 
 
