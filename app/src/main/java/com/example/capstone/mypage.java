@@ -36,6 +36,18 @@ public class mypage extends Activity {
             }
         });
 
+        // 뒤로가기 버튼 눌렀을때 이전 스택에 쌓인 액티비티로 이동하게 됨
+        View imageView = findViewById(R.id.imageViewBottom3);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 새로운 액티비티로 이동하는 Intent를 생성합니다.
+                Intent intent = new Intent(mypage.this, home.class);
+                // Intent를 사용하여 새로운 액티비티로 이동합니다.
+                startActivity(intent);
+            }
+        });
+
         // 앱 시작 시 로그아웃 상태로 초기화
         SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         isLoggedIn = prefs.getBoolean(KEY_LOGGED_IN, false);
