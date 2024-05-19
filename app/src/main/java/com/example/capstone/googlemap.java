@@ -1,5 +1,6 @@
 package com.example.capstone;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public class googlemap extends AppCompatActivity implements OnMapReadyCallback {
     private Button backButton; // 뒤로가기 버튼 추가
     private List<LatLng> markerLocations = new ArrayList<>(); // 미리 찍어둔 좌표 리스트
     private Map<String, Float> zoomLevels = new HashMap<>(); // 검색 위치별 줌 레벨 매핑
+    private Map<String, LatLng> predefinedLocations = new HashMap<>(); // 미리 정의한 위치 매핑
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +44,21 @@ public class googlemap extends AppCompatActivity implements OnMapReadyCallback {
         markerLocations.add(new LatLng(37.507664, 127.014553)); // 반포자이
         markerLocations.add(new LatLng(37.53417, 126.987547)); // 경리단길
         markerLocations.add(new LatLng(36.317566, 127.367761)); // 배재대학교 정보과학관
+        markerLocations.add(new LatLng(37.541662, 127.058166)); // 남경빌딩 첫번째 예시 팝업스토어 주소
 
         zoomLevels.put("시그니엘", 10f);
         zoomLevels.put("한남더힐", 10f);
         zoomLevels.put("반포자이", 15f);
         zoomLevels.put("경리단길", 15f);
-        zoomLevels.put("배재대 정보과학관", 15f); // 정보과학관에 대한 줌 레벨 추가
+        zoomLevels.put("구름 위를 걷는 기분", 15f); // 줌 레벨 추가 (남경빌딩 첫번째 예시 팝업스토어)
+
+        predefinedLocations.put("서울", new LatLng(37.5665, 126.9780));
+        predefinedLocations.put("시그니엘", new LatLng(37.512949, 127.102380));
+        predefinedLocations.put("한남더힐", new LatLng(37.536884, 127.009209));
+        predefinedLocations.put("반포자이", new LatLng(37.507664, 127.014553));
+        predefinedLocations.put("경리단길", new LatLng(37.53417, 126.987547));
+        predefinedLocations.put("정보과학관", new LatLng(36.317566, 127.367761));
+        predefinedLocations.put("구름 위를 걷는 기분", new LatLng(37.541662, 127.058166));
 
         searchEditText = findViewById(R.id.searchEditText);
         searchButton = findViewById(R.id.searchButton);
@@ -91,20 +103,37 @@ public class googlemap extends AppCompatActivity implements OnMapReadyCallback {
             String title = getTitleFromPosition(i);
             mMap.addMarker(new MarkerOptions().position(location).title(title));
         }
+
+        // 검색후 마커를 클릭하면 그 마커에 해당하는 위치의 이름이 뜨는데 그 이름창을 클릭하면 원하는 xml파일로 intent 하는 코드
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                String markerTitle = marker.getTitle();
+                if ("A Cloud Traveler : 구름 위를 걷는 기분".equals(markerTitle)) {
+                    // "구름 위를 걷는 기분" 마커의 정보 창을 클릭했을 때 info.xml로 이동
+                    Intent intent = new Intent(googlemap.this, info.class);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     // 위치를 검색하고 해당 위치로 지도를 이동하는 메소드
     private void searchLocation(String location) {
-        // 검색한 위치로 지도를 이동합니다.
-        // 이동 애니메이션은 지도만 이동시키고, 마커를 찍지 않습니다.
-        LatLng searchedLocation = getLocationFromAddress(location);
-        if (searchedLocation != null) {
-            // 검색된 위치의 이름으로 줌 레벨을 가져옵니다.
+        // 검색한 위치가 미리 정의한 위치에 있는지 확인
+        if (predefinedLocations.containsKey(location)) {
+            LatLng predefinedLocation = predefinedLocations.get(location);
             Float zoomLevel = zoomLevels.get(location);
             if (zoomLevel == null) {
                 zoomLevel = 10f; // 기본 줌 레벨
             }
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(searchedLocation, zoomLevel));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(predefinedLocation, zoomLevel));
+        } else {
+            // 검색한 위치로 지도를 이동합니다.
+            LatLng searchedLocation = getLocationFromAddress(location);
+            if (searchedLocation != null) {
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(searchedLocation, 10f));
+            }
         }
     }
 
@@ -142,6 +171,8 @@ public class googlemap extends AppCompatActivity implements OnMapReadyCallback {
                 return "경리단길";
             case 5:
                 return "정보과학관";
+            case 6:
+                return "A Cloud Traveler : 구름 위를 걷는 기분";
             default:
                 return "";
         }
