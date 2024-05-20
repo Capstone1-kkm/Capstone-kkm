@@ -25,7 +25,7 @@ public class login1 extends AppCompatActivity {
     private static final String KEY_EMAIL = "email";
     private static final String KEY_PASSWORD = "password";
 
-    // 이메일과 비밀번호를 입력 받을 EditText 위젯 변수 선언
+    // 이메일과 비밀번호를 입력 받을 EditText 위젯 변수 선언 (editTextEmail, editTextPassword)
     private EditText editTextEmail;
     private EditText editTextPassword;
 
@@ -58,26 +58,6 @@ public class login1 extends AppCompatActivity {
             }
         });
 
-        // 뒤로가기 버튼 눌렀을때 이전 스택에 쌓인 액티비티로 이동하게 됨
-        ImageView imageView = findViewById(R.id.imageViewBottom1);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
-        // 뒤로가기 버튼 눌렀을때 이전 스택에 쌓인 액티비티로 이동하게 됨
-        imageView = findViewById(R.id.imageViewBottom5);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 새로운 액티비티로 이동하는 Intent를 생성합니다.
-                Intent intent = new Intent(login1.this, mypage.class);
-                // Intent를 사용하여 새로운 액티비티로 이동합니다.
-                startActivity(intent);
-            }
-        });
 
     }
 
