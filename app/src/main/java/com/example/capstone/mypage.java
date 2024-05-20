@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewDebug;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,8 +53,6 @@ public class mypage extends Activity {
         SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         isLoggedIn = prefs.getBoolean(KEY_LOGGED_IN, false);
         updateGreeting();
-
-
     }
 
     @Override
