@@ -38,27 +38,44 @@ public class googlemap extends AppCompatActivity implements OnMapReadyCallback {
         setContentView(R.layout.googlemap);
 
         // 미리 찍어둔 좌표와 검색 위치별 줌 레벨 설정
-        markerLocations.add(new LatLng(37.5665, 126.9780)); // 서울의 좌표
-        markerLocations.add(new LatLng(37.512949, 127.102380)); // 시그니엘
-        markerLocations.add(new LatLng(37.536884, 127.009209)); // 한남더힐
-        markerLocations.add(new LatLng(37.507664, 127.014553)); // 반포자이
-        markerLocations.add(new LatLng(37.53417, 126.987547)); // 경리단길
-        markerLocations.add(new LatLng(36.317566, 127.367761)); // 배재대학교 정보과학관
-        markerLocations.add(new LatLng(37.541662, 127.058166)); // 남경빌딩 첫번째 예시 팝업스토어 주소
+        markerLocations.add(new LatLng(37.541662, 127.058166)); // (popup_info - A Cloud Traveler : 구름 위를 걷는 기분)
+        markerLocations.add(new LatLng(37.555116, 126.922558)); // (popup_info1 - It's Your Day: 이번 광고, 생일 카페 주인공은 바로 너!)
+        markerLocations.add(new LatLng(37.556670, 126.936601)); // (popup_info2 - 담곰이 카페)
+        markerLocations.add(new LatLng(37.556431, 126.923832)); // (popup_info3 - 담곰이 팝업스토어 <봄날의 담곰이>)
+        markerLocations.add(new LatLng(37.543378, 127.051716)); // (popup_info4 - 로에베 퍼퓸 팝업스토어)
+        markerLocations.add(new LatLng(37.525888, 126.928449)); // (popup_info5 - IKEA 팝업스토어 더현대 서울)
+        markerLocations.add(new LatLng(37.541241, 127.058824)); // (popup_info6 - 엄브로 100주년 <MR.UM's CLEANERS>)
+        markerLocations.add(new LatLng(37.512459, 127.102545)); // (popup_info7 - 블레스문 팝업스토어)
+        markerLocations.add(new LatLng(37.579405, 126.978686)); // (popup_info8 - 요물, 우리를 홀린 고양이)
+        markerLocations.add(new LatLng(37.556966, 126.978106)); // (popup_info9 - 달리기 : 새는 날고 물고기는 헤엄치고 인간은 달린다)
 
-        zoomLevels.put("시그니엘", 10f);
-        zoomLevels.put("한남더힐", 10f);
-        zoomLevels.put("반포자이", 15f);
-        zoomLevels.put("경리단길", 15f);
-        zoomLevels.put("구름 위를 걷는 기분", 15f); // 줌 레벨 추가 (남경빌딩 첫번째 예시 팝업스토어)
 
-        predefinedLocations.put("서울", new LatLng(37.5665, 126.9780));
-        predefinedLocations.put("시그니엘", new LatLng(37.512949, 127.102380));
-        predefinedLocations.put("한남더힐", new LatLng(37.536884, 127.009209));
-        predefinedLocations.put("반포자이", new LatLng(37.507664, 127.014553));
-        predefinedLocations.put("경리단길", new LatLng(37.53417, 126.987547));
-        predefinedLocations.put("정보과학관", new LatLng(36.317566, 127.367761));
-        predefinedLocations.put("구름 위를 걷는 기분", new LatLng(37.541662, 127.058166));
+        // 줌 레벨 추가
+        zoomLevels.put("구름 위를 걷는 기분", 15f); // (popup_info - A Cloud Traveler : 구름 위를 걷는 기분)
+        zoomLevels.put("생일카페", 15f); // (popup_info1 - It's Your Day: 이번 광고, 생일 카페 주인공은 바로 너!)
+        zoomLevels.put("담곰이 카페", 15f); // (popup_info2 - 담곰이 카페)
+        zoomLevels.put("담곰이 팝업스토어", 15f); // (popup_info3 - 담곰이 팝업스토어 <봄날의 담곰이>)
+        zoomLevels.put("로에베 퍼퓸", 15f); // (popup_info4 - 로에베 퍼퓸 팝업스토어)
+        zoomLevels.put("이케아", 15f); // (popup_info5 - IKEA 팝업스토어 더현대 서울)
+        zoomLevels.put("엄브로", 15f); // (popup_info6 - 엄브로 100주년 <MR.UM's CLEANERS>)
+        zoomLevels.put("블레스문", 15f); // (popup_info7 - 블레스문 팝업스토어)
+        zoomLevels.put("요물", 15f); // (popup_info8 - 요물, 우리를 홀린 고양이)
+        zoomLevels.put("달리기", 15f); // (popup_info9 - 달리기 : 새는 날고 물고기는 헤엄치고 인간은 달린다)
+
+
+       // 검색창 검색할때 검색어 지정 ##############################################################################################################
+        predefinedLocations.put("구름 위를 걷는 기분", new LatLng(37.541662, 127.058166)); // (popup_info - A Cloud Traveler : 구름 위를 걷는 기분)
+        predefinedLocations.put("생일카페", new LatLng(37.555116, 126.922558)); // (popup_info1 - It's Your Day: 이번 광고, 생일 카페 주인공은 바로 너!)
+        predefinedLocations.put("담곰이 카페", new LatLng(37.556670, 126.936601)); // (popup_info2 - 담곰이 카페)
+        predefinedLocations.put("담곰이 팝업스토어", new LatLng(37.556431, 126.923832)); // (popup_info3 - 담곰이 팝업스토어 <봄날의 담곰이>)
+        predefinedLocations.put("로에베 퍼퓸", new LatLng(37.543378, 127.051716)); // (popup_info4 - 로에베 퍼퓸 팝업스토어)
+        predefinedLocations.put("이케아", new LatLng(37.525888, 126.928449)); // (popup_info5 - IKEA 팝업스토어 더현대 서울)
+        predefinedLocations.put("엄브로", new LatLng(37.541241, 127.058824)); // (popup_info6 - 엄브로 100주년 <MR.UM's CLEANERS>)
+        predefinedLocations.put("블레스문", new LatLng(37.512459, 127.102545)); // (popup_info7 - 블레스문 팝업스토어)
+        predefinedLocations.put("요물", new LatLng(37.579405, 126.978686)); // (popup_info8 - 요물, 우리를 홀린 고양이)
+        predefinedLocations.put("달리기", new LatLng(37.556966, 126.978106)); // (popup_info9 - 달리기 : 새는 날고 물고기는 헤엄치고 인간은 달린다)
+
+
 
         searchEditText = findViewById(R.id.searchEditText);
         searchButton = findViewById(R.id.searchButton);
@@ -109,13 +126,47 @@ public class googlemap extends AppCompatActivity implements OnMapReadyCallback {
             @Override
             public void onInfoWindowClick(Marker marker) {
                 String markerTitle = marker.getTitle();
+                Intent intent = new Intent(googlemap.this, info.class);
+
                 if ("A Cloud Traveler : 구름 위를 걷는 기분".equals(markerTitle)) {
-                    // "구름 위를 걷는 기분" 마커의 정보 창을 클릭했을 때 info.xml로 이동
-                    Intent intent = new Intent(googlemap.this, info.class);
-                    startActivity(intent);
+                    intent.putExtra("tableName", "popup_info");
+                    intent.putExtra("imageFileName", "store1.png");
+                } else if ("It's Your Day: 이번 광고, 생일 카페 주인공은 바로 너!".equals(markerTitle)) {
+                    intent.putExtra("tableName", "popup_info1");
+                    intent.putExtra("imageFileName", "store2.png");
+                } else if ("담곰이 카페".equals(markerTitle)) {
+                    intent.putExtra("tableName", "popup_info2");
+                    intent.putExtra("imageFileName", "store3.png");
+                } else if ("담곰이 팝업스토어 <봄날의 담곰이>".equals(markerTitle)) {
+                    intent.putExtra("tableName", "popup_info3");
+                    intent.putExtra("imageFileName", "store4.png");
+                } else if ("로에베 퍼퓸 팝업스토어".equals(markerTitle)) {
+                    intent.putExtra("tableName", "popup_info4");
+                    intent.putExtra("imageFileName", "store5.png");
+                } else if ("IKEA 팝업스토어 더현대 서울".equals(markerTitle)) {
+                    intent.putExtra("tableName", "popup_info5");
+                    intent.putExtra("imageFileName", "store6.png");
+                }else if ("엄브로 100주년 <MR.UM's CLEANERS>".equals(markerTitle)) {
+                    intent.putExtra("tableName", "popup_info6");
+                    intent.putExtra("imageFileName", "store7.png");
+                }else if ("블레스문 팝업스토어".equals(markerTitle)) {
+                    intent.putExtra("tableName", "popup_info7");
+                    intent.putExtra("imageFileName", "store8.png");
+                }else if ("요물, 우리를 홀린 고양이".equals(markerTitle)) {
+                    intent.putExtra("tableName", "popup_info8");
+                    intent.putExtra("imageFileName", "store9.png");
+                }else if ("달리기 : 새는 날고 물고기는 헤엄치고 인간은 달린다".equals(markerTitle)) {
+                    intent.putExtra("tableName", "popup_info9");
+                    intent.putExtra("imageFileName", "store10.png");
                 }
+                // 필요한 만큼 else if 블록을 추가하여 다른 마커 제목에 맞는 테이블 이름을 설정할 수 있음
+
+                startActivity(intent);
             }
         });
+
+
+
     }
 
     // 위치를 검색하고 해당 위치로 지도를 이동하는 메소드
@@ -160,19 +211,25 @@ public class googlemap extends AppCompatActivity implements OnMapReadyCallback {
     private String getTitleFromPosition(int position) {
         switch (position) {
             case 0:
-                return "서울";
-            case 1:
-                return "시그니엘";
-            case 2:
-                return "한남더힐";
-            case 3:
-                return "반포자이";
-            case 4:
-                return "경리단길";
-            case 5:
-                return "정보과학관";
-            case 6:
                 return "A Cloud Traveler : 구름 위를 걷는 기분";
+            case 1:
+                return "It's Your Day: 이번 광고, 생일 카페 주인공은 바로 너!";
+            case 2:
+                return "담곰이 카페";
+            case 3:
+                return "담곰이 팝업스토어 <봄날의 담곰이>";
+            case 4:
+                return "로에베 퍼퓸 팝업스토어";
+            case 5:
+                return "IKEA 팝업스토어 더현대 서울";
+            case 6:
+                return "엄브로 100주년 <MR.UM's CLEANERS>";
+            case 7:
+                return "블레스문 팝업스토어";
+            case 8:
+                return "요물, 우리를 홀린 고양이";
+            case 9:
+                return "달리기 : 새는 날고 물고기는 헤엄치고 인간은 달린다";
             default:
                 return "";
         }

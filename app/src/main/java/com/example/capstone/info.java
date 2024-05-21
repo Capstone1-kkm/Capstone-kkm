@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -20,8 +21,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class info extends AppCompatActivity {
-
     private DatabaseReference mDatabase;
+    private String tableName;
+    private String imageFileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +31,16 @@ public class info extends AppCompatActivity {
         setContentView(R.layout.info);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        tableName = getIntent().getStringExtra("tableName");
+        imageFileName = getIntent().getStringExtra("imageFileName");
+
         loadPopupInfo();
-        loadCloudImage();
+        loadCloudImage(); // 사진 로딩 메소드 호출
     }
 
     private void loadPopupInfo() {
-        mDatabase.child("popup_info").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child(tableName).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -60,29 +66,24 @@ public class info extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(info.this, "Failed to load data.", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-
-    // 이미지 firebasestorage 에서 이미지 주소를 사용하여 불러온다.
     private void loadCloudImage() {
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("cloud.png");
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(imageFileName);
         storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 String imageUrl = uri.toString();
-                // imageUrl을 사용하여 이미지 표시
                 ImageView imageView = findViewById(R.id.cloudImageView);
                 Glide.with(getApplicationContext()).load(imageUrl).into(imageView);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                // 이미지 다운로드 실패 시 처리
-
-
-                Toast.makeText(getWindow().getContext(), "데이터를 불러오지 못했습니다..", Toast.LENGTH_SHORT).show();
+                Toast.makeText(info.this, "Failed to load image.", Toast.LENGTH_SHORT).show();
             }
         });
     }
