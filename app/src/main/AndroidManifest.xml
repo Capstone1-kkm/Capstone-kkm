@@ -41,7 +41,7 @@
         <activity android:name=".home" />
         <activity android:name=".mypage"/>
         <activity android:name=".info"/>
-
+        <activity android:name=".wishlist"/>
 
 
 

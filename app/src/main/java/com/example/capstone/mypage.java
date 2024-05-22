@@ -79,6 +79,15 @@ public class mypage extends Activity {
             }
         });
 
+        LinearLayout wishlistLayout = findViewById(R.id.wishlist);
+        wishlistLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mypage.this, wishlist.class);
+                startActivity(intent);
+            }
+        });
+
 
         // 앱 시작 시 로그아웃 상태로 초기화
         SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
