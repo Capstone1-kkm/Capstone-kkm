@@ -2,6 +2,7 @@ package com.example.capstone;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ public class info extends AppCompatActivity {
     private String tableName;
     private String imageFileName;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,16 @@ public class info extends AppCompatActivity {
 
         loadPopupInfo();
         loadCloudImage(); // 사진 로딩 메소드 호출
+
+
+        View imageView = findViewById(R.id.backst);
+        //이전으로 돌아가는 인텐트
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void loadPopupInfo() {

@@ -81,17 +81,6 @@ public class googlemap extends AppCompatActivity implements OnMapReadyCallback {
         searchButton = findViewById(R.id.searchButton);
         backButton = findViewById(R.id.backButton); // 뒤로가기 버튼 연결
 
-        // 검색 버튼 클릭 이벤트 처리
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String location = searchEditText.getText().toString();
-                // 위치를 검색하고 이동하는 메서드 호출
-                searchLocation(location);
-            }
-        });
-
-        // 뒤로가기 버튼 클릭 이벤트 처리
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,8 +89,15 @@ public class googlemap extends AppCompatActivity implements OnMapReadyCallback {
             }
         });
 
-        // SupportMapFragment 가져오기 및 맵 비동기적으로 로드
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        // 검색 버튼 클릭 이벤트 처리
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String location = searchEditText.getText().toString();
+                // 위치를 검색하고 이동하는 메서드 호출
+                searchLocation(location);
+            }
+        });SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
@@ -195,6 +191,9 @@ public class googlemap extends AppCompatActivity implements OnMapReadyCallback {
         LatLng p1 = null;
 
         try {
+
+        // SupportMapFragment 가져오기 및 맵 비동기적으로 로드
+
             address = coder.getFromLocationName(strAddress, 5);
             if (address == null) {
                 return null;
