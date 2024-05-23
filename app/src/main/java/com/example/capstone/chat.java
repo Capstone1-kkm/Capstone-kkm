@@ -3,6 +3,7 @@ package com.example.capstone;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +13,18 @@ public class chat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat); // chat.xml 레이아웃을 사용
 
+        //채팅방으로 화면 전환
+        ImageView chattingimageView = findViewById(R.id.chat1);
+        chattingimageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 새로운 액티비티로 이동하는 Intent를 생성합니다.
+                Intent intent = new Intent(chat.this, chat2.class);
+                // Intent를 사용하여 새로운 액티비티로 이동합니다.
+                startActivity(intent);
+            }
+        });
+        
         View imageView = findViewById(R.id.imageViewBottom1);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
