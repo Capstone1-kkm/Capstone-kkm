@@ -30,10 +30,17 @@
                     android:src="@drawable/arrow2" />
 
                 <ImageView
+                    android:id="@+id/message"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="340dp"
+                    android:src="@drawable/message" />
+
+                <ImageView
                     android:id="@+id/wishheart"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginLeft="363dp"
+                    android:layout_marginLeft="5dp"
                     android:src="@drawable/wishheart"
                     tools:ignore="SpeakableTextPresentCheck" />
             </LinearLayout>
