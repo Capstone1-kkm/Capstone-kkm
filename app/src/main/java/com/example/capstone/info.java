@@ -1,5 +1,6 @@
 package com.example.capstone;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -47,6 +48,18 @@ public class info extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        //채팅 클릭시 전환
+        ImageView chatimageView = findViewById(R.id.message);
+        chatimageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 새로운 액티비티로 이동하는 Intent를 생성합니다.
+                Intent intent = new Intent(info.this, chat.class);
+                // Intent를 사용하여 새로운 액티비티로 이동합니다.
+                startActivity(intent);
             }
         });
     }
