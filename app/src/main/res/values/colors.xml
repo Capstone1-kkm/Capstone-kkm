@@ -6,4 +6,5 @@
     <color name="login_text_color">#FF4081</color>
     <color name="lime_green">#006400</color>
     <color name="gray">#808080</color>
+    <color name="light_gray">#F0F0F0</color>
 </resources>

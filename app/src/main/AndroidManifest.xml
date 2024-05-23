@@ -42,6 +42,8 @@
         <activity android:name=".mypage"/>
         <activity android:name=".info"/>
         <activity android:name=".wishlist"/>
+        <activity android:name=".chat"/>
+        <activity android:name=".chat2"/>
 
 
 
