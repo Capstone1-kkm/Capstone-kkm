@@ -26,7 +26,8 @@ public class info extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private String tableName;
     private String imageFileName;
-
+    private String websiteLink;
+    private String instagramLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +42,8 @@ public class info extends AppCompatActivity {
         loadPopupInfo();
         loadCloudImage(); // 사진 로딩 메소드 호출
 
-
         View imageView = findViewById(R.id.backst);
-        //이전으로 돌아가는 인텐트
+        // 이전으로 돌아가는 인텐트
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,7 +51,7 @@ public class info extends AppCompatActivity {
             }
         });
 
-        //채팅 클릭시 전환
+        // 채팅 클릭시 전환
         ImageView chatimageView = findViewById(R.id.message);
         chatimageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +60,34 @@ public class info extends AppCompatActivity {
                 Intent intent = new Intent(info.this, chat.class);
                 // Intent를 사용하여 새로운 액티비티로 이동합니다.
                 startActivity(intent);
+            }
+        });
+
+        // 팝업 홈페이지 클릭 이벤트 설정
+        TextView websiteTextView = findViewById(R.id.websiteTextView);
+        websiteTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (websiteLink != null && !websiteLink.isEmpty()) {
+                    // 해당 링크로 이동
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(websiteLink)));
+                } else {
+                    Toast.makeText(info.this, "Website link is not available.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // 인스타그램 클릭 이벤트 설정
+        TextView instagramTextView = findViewById(R.id.instagramTextView);
+        instagramTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (instagramLink != null && !instagramLink.isEmpty()) {
+                    // 해당 링크로 이동
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(instagramLink)));
+                } else {
+                    Toast.makeText(info.this, "Instagram link is not available.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -75,8 +103,8 @@ public class info extends AppCompatActivity {
                     String description = dataSnapshot.child("description").getValue(String.class);
                     String hoursWeekday = dataSnapshot.child("hours_weekday").getValue(String.class);
                     String hoursWeekend = dataSnapshot.child("hours_weekend").getValue(String.class);
-                    String website = dataSnapshot.child("website").getValue(String.class);
-                    String instagram = dataSnapshot.child("instagram").getValue(String.class);
+                    websiteLink = dataSnapshot.child("popup_website").getValue(String.class);
+                    instagramLink = dataSnapshot.child("instagram_website").getValue(String.class);
 
                     ((TextView) findViewById(R.id.titleTextView)).setText(title);
                     ((TextView) findViewById(R.id.dateTextView)).setText(date);
@@ -84,8 +112,8 @@ public class info extends AppCompatActivity {
                     ((TextView) findViewById(R.id.descriptionTextView)).setText(description);
                     ((TextView) findViewById(R.id.hoursWeekdayTextView)).setText(hoursWeekday);
                     ((TextView) findViewById(R.id.hoursWeekendTextView)).setText(hoursWeekend);
-                    ((TextView) findViewById(R.id.websiteTextView)).setText(website);
-                    ((TextView) findViewById(R.id.instagramTextView)).setText(instagram);
+                    ((TextView) findViewById(R.id.websiteTextView)).setText("팝업 홈페이지");
+                    ((TextView) findViewById(R.id.instagramTextView)).setText("인스타그램");
                 }
             }
 
