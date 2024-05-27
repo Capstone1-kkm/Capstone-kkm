@@ -28,7 +28,7 @@ public class info extends AppCompatActivity {
     private String imageFileName;
     private String websiteLink;
     private String instagramLink;
-
+    private TextView storeNameTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,14 +51,15 @@ public class info extends AppCompatActivity {
             }
         });
 
+        storeNameTextView = findViewById(R.id.titleTextView);  // TextView 초기화
         // 채팅 클릭시 전환
         ImageView chatimageView = findViewById(R.id.message);
         chatimageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 새로운 액티비티로 이동하는 Intent를 생성합니다.
-                Intent intent = new Intent(info.this, chat.class);
-                // Intent를 사용하여 새로운 액티비티로 이동합니다.
+                Intent intent = new Intent(info.this, chat2.class);
+                String popupStoreName = storeNameTextView.getText().toString();
+                intent.putExtra("popup_store_name", popupStoreName);
                 startActivity(intent);
             }
         });

@@ -33,64 +33,20 @@
         android:layout_above="@+id/LinearLayoutBottom"
         android:layout_below="@+id/chatting"
         android:layout_marginBottom="1dp"
-        android:scrollbarThumbVertical="@android:color/transparent" >
+        android:scrollbarThumbVertical="@android:color/transparent"
+        tools:ignore="SpeakableTextPresentCheck">
 
         <LinearLayout
             android:id="@+id/chatlist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:orientation="horizontal" >
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/chat1"
-                android:layout_width="110dp"
-                android:layout_height="110dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/store4" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="담곰이 카페"
-                        android:textSize="15dp"
-                        tools:ignore="TextSizeCheck" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="175dp"
-                        android:layout_marginTop="10dp"
-                        android:text="시간"
-                        android:textColor="@color/gray"
-                        android:textSize="13dp"
-                        tools:ignore="TextSizeCheck" />
-                </LinearLayout>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="최근 메세지"
-                    android:textSize="10dp"
-                    tools:ignore="TextSizeCheck" />
-
-            </LinearLayout>
+            <ListView
+                android:id="@+id/chat_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </LinearLayout>
     </ScrollView>
 

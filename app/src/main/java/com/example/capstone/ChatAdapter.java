@@ -1,96 +1,50 @@
 package com.example.capstone;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.List;
+import java.util.Map;
 
-//리사이클러뷰 어댑터
-public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
+    private List<Map<String, String>> mChatList;
+    private String mNick;
 
-    private List<chatdata> chatList;
-    private String currentUser;
+    public static class ChatViewHolder extends RecyclerView.ViewHolder {
+        public TextView nicknameView;
+        public TextView messageView;
 
-    private static final int VIEW_TYPE_MY_MESSAGE = 1;
-    private static final int VIEW_TYPE_OTHER_MESSAGE = 2;
-
-    public ChatAdapter(List<chatdata> chatList, String currentUser) {
-        this.chatList = chatList;
-        this.currentUser = currentUser;
-    }
-
-    @Override
-
-    public int getItemViewType(int position) {
-        chatdata chat = chatList.get(position);
-        if (chat.getNickname().equals(currentUser)) {
-            return VIEW_TYPE_MY_MESSAGE;
-        } else {
-            return VIEW_TYPE_OTHER_MESSAGE;
+        @SuppressLint("WrongViewCast")
+        public ChatViewHolder(View v) {
+            super(v);
+            nicknameView = v.findViewById(R.id.nicknameTextView);
+            messageView = v.findViewById(R.id.messageTextView);
         }
     }
 
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == VIEW_TYPE_MY_MESSAGE) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item, parent, false);
-            return new MyMessageViewHolder(view);
-        } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item_other, parent, false);
-            return new OtherMessageViewHolder(view);
-        }
+    public ChatAdapter(List<Map<String, String>> chatList, String nick) {
+        mChatList = chatList;
+        mNick = nick;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        chatdata chat = chatList.get(position);
-        if (holder.getItemViewType() == VIEW_TYPE_MY_MESSAGE) {
-            ((MyMessageViewHolder) holder).bind(chat);
-        } else {
-            ((OtherMessageViewHolder) holder).bind(chat);
-        }
+    public ChatAdapter.ChatViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item, parent, false);
+        return new ChatViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(ChatViewHolder holder, int position) {
+        Map<String, String> chat = mChatList.get(position);
+        holder.nicknameView.setText(chat.get("nickname"));
+        holder.messageView.setText(chat.get("message"));
     }
 
     @Override
     public int getItemCount() {
-        return chatList.size();
-    }
-
-    public class MyMessageViewHolder extends RecyclerView.ViewHolder {
-        private TextView messageTextView;
-        private TextView nicknameTextView;
-
-        public MyMessageViewHolder(@NonNull View itemView) {
-            super(itemView);
-            messageTextView = itemView.findViewById(R.id.messageTextView);
-            nicknameTextView = itemView.findViewById(R.id.nicknameTextView);
-        }
-
-        public void bind(chatdata chat) {
-            messageTextView.setText(chat.getMsg());
-            nicknameTextView.setText(chat.getNickname());
-        }
-    }
-
-    public class OtherMessageViewHolder extends RecyclerView.ViewHolder {
-        private TextView messageTextView;
-        private TextView nicknameTextView;
-
-        public OtherMessageViewHolder(@NonNull View itemView) {
-            super(itemView);
-            messageTextView = itemView.findViewById(R.id.messageTextView);
-            nicknameTextView = itemView.findViewById(R.id.nicknameTextView);
-        }
-
-        public void bind(chatdata chat) {
-            messageTextView.setText(chat.getMsg());
-            nicknameTextView.setText(chat.getNickname());
-        }
+        return mChatList.size();
     }
 }

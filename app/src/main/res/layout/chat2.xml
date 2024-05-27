@@ -17,34 +17,17 @@
             android:id="@+id/chattingroom"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginTop="5dp"
             android:src="@drawable/arrow2" />
 
         <TextView
-            android:id="@+id/store_name"
-            android:layout_width="wrap_content"
+            android:id="@+id/popup_store_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:layout_marginLeft="130dp" />
-
-        <TextView
-            android:id="@+id/person_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:layout_marginLeft="20dp"/>
-
-
-        <!-- 이 View는 TextView들 사이에 공간을 채워줌으로써 ImageView가 항상 오른쪽에 위치하도록 합니다 -->
-        <View
-            android:layout_width="0dp"
-            android:layout_height="10dp"
-            android:layout_weight="1"/>
-
-        <ImageView
-            android:id="@+id/person"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/person" />
+            android:layout_marginLeft="50dp"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"/>
     </LinearLayout>
 
     <View
