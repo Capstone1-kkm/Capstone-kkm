@@ -19,6 +19,7 @@ public class mypage extends Activity {
     private static final int LOGIN_REQUEST_CODE = 1;
     private static final String PREF_NAME = "login_pref";
     private static final String KEY_LOGGED_IN = "logged_in";
+    private static final String KEY_USER_NAME = "user_name"; // 사용자 이름을 저장할 키
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +101,7 @@ public class mypage extends Activity {
             }
         });
 
-
-        // 앱 시작 시 로그아웃 상태로 초기화
+        // 앱 시작 시 로그인 상태 확인 및 환영 메시지 업데이트
         SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         isLoggedIn = prefs.getBoolean(KEY_LOGGED_IN, false);
         updateGreeting();
@@ -120,13 +120,18 @@ public class mypage extends Activity {
         }
     }
 
-    
     private void updateGreeting() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String displayName = currentUser.getDisplayName();
             if (displayName != null && !displayName.isEmpty()) {
                 greetingTextView.setText(displayName + "님, 안녕하세요");
+
+                // SharedPreferences에 사용자 이름 저장
+                SharedPreferences.Editor editor = getSharedPreferences(PREF_NAME, MODE_PRIVATE).edit();
+                editor.putString(KEY_USER_NAME, displayName);
+                editor.apply();
+
                 isLoggedIn = true;
                 loginTextView.setText("로그아웃"); // "로그아웃"으로 텍스트 설정
             }
@@ -148,5 +153,4 @@ public class mypage extends Activity {
             updateGreeting();
         }
     }
-
 }

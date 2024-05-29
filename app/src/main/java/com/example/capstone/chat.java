@@ -11,6 +11,7 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 public class chat extends AppCompatActivity {
@@ -26,13 +27,11 @@ public class chat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat);
 
-        // 기존 하단 이미지뷰 클릭 리스너 설정
         View imageView = findViewById(R.id.imageViewBottom1);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 이전 액티비티로 돌아가는 인텐트
                 finish();
             }
         });
@@ -41,9 +40,7 @@ public class chat extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 새로운 액티비티로 이동하는 Intent를 생성합니다.
                 Intent intent = new Intent(chat.this, googlemap.class);
-                // Intent를 사용하여 새로운 액티비티로 이동합니다.
                 startActivity(intent);
             }
         });
@@ -52,33 +49,25 @@ public class chat extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 새로운 액티비티로 이동하는 Intent를 생성합니다.
                 Intent intent = new Intent(chat.this, home.class);
-                // Intent를 사용하여 새로운 액티비티로 이동합니다.
                 startActivity(intent);
             }
         });
 
-        // 채팅 버튼 눌렀을때 이전 스택에 쌓인 액티비티로 이동하게 됨
         imageView = findViewById(R.id.imageViewBottom4);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 새로운 액티비티로 이동하는 Intent를 생성합니다.
                 Intent intent = new Intent(chat.this, chat.class);
-                // Intent를 사용하여 새로운 액티비티로 이동합니다.
                 startActivity(intent);
             }
         });
 
-        // 뒤로가기 버튼 눌렀을때 이전 스택에 쌓인 액티비티로 이동하게 됨
         imageView = findViewById(R.id.imageViewBottom5);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 새로운 액티비티로 이동하는 Intent를 생성합니다.
                 Intent intent = new Intent(chat.this, mypage.class);
-                // Intent를 사용하여 새로운 액티비티로 이동합니다.
                 startActivity(intent);
             }
         });
@@ -87,21 +76,15 @@ public class chat extends AppCompatActivity {
         chatListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // 클릭된 아이템의 정보를 가져옵니다.
-                String popupStoreName = chatListItems.get(position); // 예시: 팝업스토어 이름이라고 가정
+                String popupStoreName = chatListItems.get(position);
 
-                // 채팅 화면으로 이동하는 Intent를 생성합니다.
                 Intent intent = new Intent(chat.this, chat2.class);
-                // 팝업스토어 이름을 Intent에 추가합니다.
                 intent.putExtra("popup_store_name", popupStoreName);
-                // Intent를 사용하여 채팅 화면으로 이동합니다.
                 startActivity(intent);
             }
         });
 
         chatListItems = new ArrayList<>();
-
-        // Load chat list from SharedPreferences
         loadChatList();
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, chatListItems);
@@ -114,6 +97,23 @@ public class chat extends AppCompatActivity {
 
         if (chatList != null) {
             chatListItems.addAll(chatList);
+        }
+    }
+
+    private void saveChatList() {
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Set<String> chatListSet = new HashSet<>(chatListItems);
+        editor.putStringSet(KEY_CHAT_LIST_ITEMS, chatListSet);
+        editor.apply();
+    }
+
+    // 새로운 스토어 이름을 추가하고 저장하는 메서드 예시
+    private void addStoreToChatList(String storeName) {
+        if (!chatListItems.contains(storeName)) {
+            chatListItems.add(storeName);
+            adapter.notifyDataSetChanged();
+            saveChatList();
         }
     }
 }

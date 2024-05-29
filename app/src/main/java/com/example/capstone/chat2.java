@@ -1,6 +1,8 @@
 package com.example.capstone;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -28,12 +30,15 @@ public class chat2 extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<Map<String, String>> chatList;
-    private String nick = "nick2"; // 1:1 or 1:da로
+    private String nick; // 사용자 이름
 
     private EditText EditText_chat;
     private Button send;
     private DatabaseReference myRef;
     private TextView storeNameTextView;
+
+    private static final String PREF_NAME = "login_pref";
+    private static final String KEY_USER_NAME = "user_name"; // 사용자 이름을 저장할 키
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,10 @@ public class chat2 extends AppCompatActivity {
         // Get the popup store name from the Intent
         String popupStoreName = getIntent().getStringExtra("popup_store_name");
         storeNameTextView.setText(popupStoreName);
+
+        // SharedPreferences에서 사용자 이름을 가져옵니다.
+        SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        nick = sharedPreferences.getString(KEY_USER_NAME, "Unknown User"); // 기본값은 "Unknown User"
 
         // Initialize RecyclerView
         mRecyclerView = findViewById(R.id.my_recycler_view);

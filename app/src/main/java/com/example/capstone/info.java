@@ -1,6 +1,8 @@
 package com.example.capstone;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +24,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class info extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private String tableName;
@@ -29,6 +34,10 @@ public class info extends AppCompatActivity {
     private String websiteLink;
     private String instagramLink;
     private TextView storeNameTextView;
+    private static final String PREFS_NAME = "wishlist_prefs";
+    private static final String KEY_CHAT_LIST_ITEMS = "chat_list_items";
+    private String popupStoreName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,16 +60,28 @@ public class info extends AppCompatActivity {
             }
         });
 
-        storeNameTextView = findViewById(R.id.titleTextView);  // TextView 초기화
-        // 채팅 클릭시 전환
-        ImageView chatimageView = findViewById(R.id.message);
-        chatimageView.setOnClickListener(new View.OnClickListener() {
+        // 채팅 이미지뷰 클릭 리스너 설정
+        ImageView chatImageView = findViewById(R.id.message);
+        chatImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(info.this, chat2.class);
-                String popupStoreName = storeNameTextView.getText().toString();
-                intent.putExtra("popup_store_name", popupStoreName);
-                startActivity(intent);
+                if (popupStoreName != null) {
+                    // SharedPreferences에 팝업 스토어 이름을 저장
+                    SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                    Set<String> chatListItems = sharedPreferences.getStringSet(KEY_CHAT_LIST_ITEMS, new HashSet<String>());
+                    chatListItems.add(popupStoreName);
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putStringSet(KEY_CHAT_LIST_ITEMS, chatListItems);
+                    editor.apply();
+
+                    // 채팅 화면으로 이동하는 Intent를 생성합니다.
+                    Intent intent = new Intent(info.this, chat2.class);
+                    intent.putExtra("popup_store_name", popupStoreName);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(info.this, "Popup store name is not available.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -106,6 +127,8 @@ public class info extends AppCompatActivity {
                     String hoursWeekend = dataSnapshot.child("hours_weekend").getValue(String.class);
                     websiteLink = dataSnapshot.child("popup_website").getValue(String.class);
                     instagramLink = dataSnapshot.child("instagram_website").getValue(String.class);
+
+                    popupStoreName = title; // 제목을 팝업 스토어 이름으로 설정
 
                     ((TextView) findViewById(R.id.titleTextView)).setText(title);
                     ((TextView) findViewById(R.id.dateTextView)).setText(date);
