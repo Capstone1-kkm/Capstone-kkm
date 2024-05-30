@@ -27,6 +27,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.HashSet;
 import java.util.Set;
 
+
 public class info extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private String tableName;
@@ -34,9 +35,10 @@ public class info extends AppCompatActivity {
     private String websiteLink;
     private String instagramLink;
     private TextView storeNameTextView;
-    private static final String PREFS_NAME = "wishlist_prefs";
-    private static final String KEY_CHAT_LIST_ITEMS = "chat_list_items";
+    public static final String PREFS_NAME = "wishlist_prefs";
+    public static final String KEY_WISHLIST_ITEMS = "wishlist_items";
     private String popupStoreName;
+    private ImageView wishhearttImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,29 @@ public class info extends AppCompatActivity {
 
         loadPopupInfo();
         loadCloudImage(); // 사진 로딩 메소드 호출
+
+        wishhearttImageView = findViewById(R.id.wishheart);
+
+        // info.java
+
+// wishhearttImageView 클릭 이벤트 설정
+        wishhearttImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 클릭한 정보를 데이터베이스에 저장하는 코드 추가
+                saveToDatabase();
+
+                // Check the current image resource and switch to the other one
+                if (wishhearttImageView.getTag() != null && wishhearttImageView.getTag().toString().equals("wishheart")) {
+                    wishhearttImageView.setImageResource(R.drawable.wishheart2);
+                    wishhearttImageView.setTag("wishheart2");
+                } else {
+                    wishhearttImageView.setImageResource(R.drawable.wishheart);
+                    wishhearttImageView.setTag("wishheart");
+                }
+            }
+        });
+
 
         View imageView = findViewById(R.id.backst);
         // 이전으로 돌아가는 인텐트
@@ -68,11 +93,11 @@ public class info extends AppCompatActivity {
                 if (popupStoreName != null) {
                     // SharedPreferences에 팝업 스토어 이름을 저장
                     SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-                    Set<String> chatListItems = sharedPreferences.getStringSet(KEY_CHAT_LIST_ITEMS, new HashSet<String>());
+                    Set<String> chatListItems = sharedPreferences.getStringSet(KEY_WISHLIST_ITEMS, new HashSet<String>());
                     chatListItems.add(popupStoreName);
 
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putStringSet(KEY_CHAT_LIST_ITEMS, chatListItems);
+                    editor.putStringSet(KEY_WISHLIST_ITEMS, chatListItems);
                     editor.apply();
 
                     // 채팅 화면으로 이동하는 Intent를 생성합니다.
@@ -112,6 +137,33 @@ public class info extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void saveToDatabase() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        // 정보를 저장할 새로운 데이터베이스 참조 생성
+        String key = databaseReference.child("wishlist").push().getKey();
+
+        // 데이터베이스에 저장할 정보 설정 (예: 팝업 스토어 이름)
+        String popupStoreName = "YourPopupStoreName";
+
+        // 데이터베이스에 정보 저장
+        databaseReference.child("wishlist").child(key).setValue(popupStoreName)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // 저장 성공 시 실행할 코드 (예: 토스트 메시지 표시)
+                        Toast.makeText(info.this, "Wishlist item added to database", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // 저장 실패 시 실행할 코드 (예: 토스트 메시지 표시)
+                        Toast.makeText(info.this, "Failed to add wishlist item to database", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void loadPopupInfo() {
@@ -163,5 +215,29 @@ public class info extends AppCompatActivity {
                 Toast.makeText(info.this, "Failed to load image.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void addToWishlist() {
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        Set<String> wishlistItems = sharedPreferences.getStringSet(KEY_WISHLIST_ITEMS, new HashSet<String>());
+        wishlistItems.add(popupStoreName);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putStringSet(KEY_WISHLIST_ITEMS, wishlistItems);
+        editor.apply();
+
+        Toast.makeText(info.this, "Added to wishlist", Toast.LENGTH_SHORT).show();
+    }
+
+    private void removeFromWishlist() {
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        Set<String> wishlistItems = sharedPreferences.getStringSet(KEY_WISHLIST_ITEMS, new HashSet<String>());
+        wishlistItems.remove(popupStoreName);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putStringSet(KEY_WISHLIST_ITEMS, wishlistItems);
+        editor.apply();
+
+        Toast.makeText(info.this, "Removed from wishlist", Toast.LENGTH_SHORT).show();
     }
 }
