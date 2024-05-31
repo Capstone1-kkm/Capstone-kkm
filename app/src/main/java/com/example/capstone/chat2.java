@@ -180,6 +180,12 @@ public class chat2 extends AppCompatActivity {
                 isLeaving = true;
                 removeUserFromChatRoom();
                 dialog.dismiss();
+
+                // 채팅 목록에서 항목 제거를 위해 인텐트 설정
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("remove_chat_item", storeNameTextView.getText().toString());
+                setResult(RESULT_OK, resultIntent);
+
                 finish(); // 채팅방 나가기
             }
         });

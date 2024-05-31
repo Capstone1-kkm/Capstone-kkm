@@ -18,6 +18,7 @@ public class chat extends AppCompatActivity {
 
     private static final String PREFS_NAME = "chat_list_pref";
     private static final String KEY_CHAT_LIST = "chat_list";
+    private static final int CHAT_REQUEST_CODE = 1;
     private ListView chatListView;
     private ArrayAdapter<String> adapter;
     private ArrayList<String> chatListItems;
@@ -28,7 +29,6 @@ public class chat extends AppCompatActivity {
         setContentView(R.layout.chat);
 
         View imageView = findViewById(R.id.imageViewBottom1);
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +80,7 @@ public class chat extends AppCompatActivity {
 
                 Intent intent = new Intent(chat.this, chat2.class);
                 intent.putExtra("popup_store_name", popupStoreName);
-                startActivity(intent);
+                startActivityForResult(intent, CHAT_REQUEST_CODE);
             }
         });
 
@@ -89,12 +89,39 @@ public class chat extends AppCompatActivity {
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, chatListItems);
         chatListView.setAdapter(adapter);
+
+        // 인텐트를 통해 전달된 새로운 채팅 항목 추가
+        Intent intent = getIntent();
+        if (intent.hasExtra("new_chat_item")) {
+            String newChatItem = intent.getStringExtra("new_chat_item");
+            addChatList(newChatItem);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CHAT_REQUEST_CODE && resultCode == RESULT_OK) {
+            if (data != null && data.hasExtra("remove_chat_item")) {
+                String removeChatItem = data.getStringExtra("remove_chat_item");
+                removeChatList(removeChatItem);
+            }
+        }
     }
 
     // 새로운 채팅을 채팅 목록에 추가하는 메서드
-    private void addChatList(String chat) {
+    public void addChatList(String chat) {
         if (!chatListItems.contains(chat)) {
             chatListItems.add(chat);
+            adapter.notifyDataSetChanged();
+            saveChatList();
+        }
+    }
+
+    // 채팅 목록에서 채팅을 제거하는 메서드
+    private void removeChatList(String chat) {
+        if (chatListItems.contains(chat)) {
+            chatListItems.remove(chat);
             adapter.notifyDataSetChanged();
             saveChatList();
         }

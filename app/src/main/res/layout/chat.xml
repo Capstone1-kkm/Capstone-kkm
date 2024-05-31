@@ -27,28 +27,19 @@
         android:layout_below="@+id/chatting"
         android:background="@android:color/darker_gray"/>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/LinearLayoutBottom"
-        android:layout_below="@+id/chatting"
-        android:layout_marginBottom="1dp"
-        android:scrollbarThumbVertical="@android:color/transparent"
-        tools:ignore="SpeakableTextPresentCheck">
-
         <LinearLayout
             android:id="@+id/chatlist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_below="@+id/chatting">
 
             <ListView
                 android:id="@+id/chat_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>
-    </ScrollView>
 
     <View
         android:layout_width="match_parent"
