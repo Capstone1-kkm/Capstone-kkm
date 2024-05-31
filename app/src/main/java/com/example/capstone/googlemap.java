@@ -111,7 +111,7 @@ public class googlemap extends FragmentActivity implements OnMapReadyCallback {
         zoomLevels.put("달리기", 15f); // (popup_info9 - 달리기 : 새는 날고 물고기는 헤엄치고 인간은 달린다)
 
 
-        // 검색창 검색할때 검색어 지정 ##############################################################################################################
+        // 검색창 검색할때 검색어 지정 #############################################################################################################
         predefinedLocations.put("구름 위를 걷는 기분", new LatLng(37.541662, 127.058166)); // (popup_info - A Cloud Traveler : 구름 위를 걷는 기분)
         predefinedLocations.put("생일카페", new LatLng(37.555116, 126.922558)); // (popup_info1 - It's Your Day: 이번 광고, 생일 카페 주인공은 바로 너!)
         predefinedLocations.put("담곰이 카페", new LatLng(37.556670, 126.936601)); // (popup_info2 - 담곰이 카페)
