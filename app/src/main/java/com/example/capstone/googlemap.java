@@ -1,41 +1,89 @@
 package com.example.capstone;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class googlemap extends AppCompatActivity implements OnMapReadyCallback {
+public class googlemap extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private FusedLocationProviderClient fusedLocationClient;
+    private LocationCallback locationCallback;
+    private Marker currentLocationMarker;
+
     private EditText searchEditText;
     private Button searchButton;
-    private Button backButton; // 뒤로가기 버튼 추가
-    private List<LatLng> markerLocations = new ArrayList<>(); // 미리 찍어둔 좌표 리스트
-    private Map<String, Float> zoomLevels = new HashMap<>(); // 검색 위치별 줌 레벨 매핑
-    private Map<String, LatLng> predefinedLocations = new HashMap<>(); // 미리 정의한 위치 매핑
+    private Button backButton;
+    private List<LatLng> markerLocations = new ArrayList<>();
+    private Map<String, Float> zoomLevels = new HashMap<>();
+    private Map<String, LatLng> predefinedLocations = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.googlemap);
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    if (mMap != null) {
+                        LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                        if (currentLocationMarker != null) {
+                            currentLocationMarker.setPosition(currentLatLng);
+                        } else {
+                            BitmapDescriptor blueDot = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+                            currentLocationMarker = mMap.addMarker(new MarkerOptions()
+                                    .position(currentLatLng)
+                                    .icon(blueDot)
+                                    .title("Current Location"));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15));
+                        }
+                    }
+                }
+            }
+        };
 
         // 미리 찍어둔 좌표와 검색 위치별 줌 레벨 설정
         markerLocations.add(new LatLng(37.541662, 127.058166)); // (popup_info - A Cloud Traveler : 구름 위를 걷는 기분)
@@ -63,7 +111,7 @@ public class googlemap extends AppCompatActivity implements OnMapReadyCallback {
         zoomLevels.put("달리기", 15f); // (popup_info9 - 달리기 : 새는 날고 물고기는 헤엄치고 인간은 달린다)
 
 
-       // 검색창 검색할때 검색어 지정 ##############################################################################################################
+        // 검색창 검색할때 검색어 지정 ##############################################################################################################
         predefinedLocations.put("구름 위를 걷는 기분", new LatLng(37.541662, 127.058166)); // (popup_info - A Cloud Traveler : 구름 위를 걷는 기분)
         predefinedLocations.put("생일카페", new LatLng(37.555116, 126.922558)); // (popup_info1 - It's Your Day: 이번 광고, 생일 카페 주인공은 바로 너!)
         predefinedLocations.put("담곰이 카페", new LatLng(37.556670, 126.936601)); // (popup_info2 - 담곰이 카페)
@@ -76,48 +124,37 @@ public class googlemap extends AppCompatActivity implements OnMapReadyCallback {
         predefinedLocations.put("달리기", new LatLng(37.556966, 126.978106)); // (popup_info9 - 달리기 : 새는 날고 물고기는 헤엄치고 인간은 달린다)
 
 
-
         searchEditText = findViewById(R.id.searchEditText);
         searchButton = findViewById(R.id.searchButton);
-        backButton = findViewById(R.id.backButton); // 뒤로가기 버튼 연결
+        backButton = findViewById(R.id.backButton);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 현재 액티비티를 종료하고 이전 액티비티로 이동
                 finish();
             }
         });
 
-        // 검색 버튼 클릭 이벤트 처리
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String location = searchEditText.getText().toString();
-                // 위치를 검색하고 이동하는 메서드 호출
                 searchLocation(location);
             }
-        });SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        });
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        // 지도가 준비되면 실행될 코드
-        // 초기 지도 설정
-        LatLng defaultLocation = new LatLng(37.5665, 126.9780); // 서울의 좌표로 초기화
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 10)); // 서울을 중심으로 초기 줌 레벨 설정
+        getCurrentLocation();
 
-        // 미리 찍어둔 좌표에 마커 추가
         for (int i = 0; i < markerLocations.size(); i++) {
             LatLng location = markerLocations.get(i);
             String title = getTitleFromPosition(i);
             mMap.addMarker(new MarkerOptions().position(location).title(title));
         }
 
-        // 검색후 마커를 클릭하면 그 마커에 해당하는 위치의 이름이 뜨는데 그 이름창을 클릭하면 원하는 xml파일로 intent 하는 코드
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
@@ -158,25 +195,20 @@ public class googlemap extends AppCompatActivity implements OnMapReadyCallback {
                 // 필요한 만큼 else if 블록을 추가하여 다른 마커 제목에 맞는 테이블 이름을 설정할 수 있음
 
                 startActivity(intent);
+
             }
         });
-
-
-
     }
 
-    // 위치를 검색하고 해당 위치로 지도를 이동하는 메소드
     private void searchLocation(String location) {
-        // 검색한 위치가 미리 정의한 위치에 있는지 확인
         if (predefinedLocations.containsKey(location)) {
             LatLng predefinedLocation = predefinedLocations.get(location);
             Float zoomLevel = zoomLevels.get(location);
             if (zoomLevel == null) {
-                zoomLevel = 10f; // 기본 줌 레벨
+                zoomLevel = 10f;
             }
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(predefinedLocation, zoomLevel));
         } else {
-            // 검색한 위치로 지도를 이동합니다.
             LatLng searchedLocation = getLocationFromAddress(location);
             if (searchedLocation != null) {
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(searchedLocation, 10f));
@@ -184,23 +216,19 @@ public class googlemap extends AppCompatActivity implements OnMapReadyCallback {
         }
     }
 
-    // 주소를 받아서 해당 주소의 위도와 경도를 반환하는 메소드
     private LatLng getLocationFromAddress(String strAddress) {
         Geocoder coder = new Geocoder(this);
         List<Address> address;
         LatLng p1 = null;
 
         try {
-
-        // SupportMapFragment 가져오기 및 맵 비동기적으로 로드
-
             address = coder.getFromLocationName(strAddress, 5);
             if (address == null) {
                 return null;
             }
             Address location = address.get(0);
             p1 = new LatLng(location.getLatitude(), location.getLongitude());
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return p1;
@@ -231,6 +259,50 @@ public class googlemap extends AppCompatActivity implements OnMapReadyCallback {
                 return "달리기 : 새는 날고 물고기는 헤엄치고 인간은 달린다";
             default:
                 return "";
+
+        }
+    }
+
+    private void getCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            return;
+        }
+
+        fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
+            if (location != null) {
+                LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                BitmapDescriptor blueDot = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+                currentLocationMarker = mMap.addMarker(new MarkerOptions()
+                        .position(currentLatLng)
+                        .icon(blueDot)
+                        .title("현재 위치"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15));
+            }
+        });
+
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setInterval(1000); // 위치 업데이트 간격 (1초)
+        locationRequest.setFastestInterval(500); // 가장 빠른 위치 업데이트 간격 (0.5초)
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); // 높은 정확도 우선
+
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            getCurrentLocation();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (fusedLocationClient != null) {
+            fusedLocationClient.removeLocationUpdates(locationCallback);
         }
     }
 }
