@@ -1,5 +1,6 @@
 package com.example.capstone;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +20,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,29 +32,26 @@ public class chat2 extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<Map<String, String>> chatList;
-    private String nick; // 사용자 이름
+    private String nick;
 
     private EditText EditText_chat;
     private Button send;
     private DatabaseReference myRef;
     private TextView storeNameTextView;
-
     private static final String PREF_NAME = "login_pref";
-    private static final String KEY_USER_NAME = "user_name"; // 사용자 이름을 저장할 키
+    private static final String KEY_USER_NAME = "user_name";
+    private boolean isLeaving = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat2);
 
-        //오피스 팝업스토어 클릭시 전환
         ImageView backimageView = findViewById(R.id.chattingroom);
         backimageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 새로운 액티비티로 이동하는 Intent를 생성합니다.
                 Intent intent = new Intent(chat2.this, chat.class);
-                // Intent를 사용하여 새로운 액티비티로 이동합니다.
                 startActivity(intent);
             }
         });
@@ -88,26 +87,26 @@ public class chat2 extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String msg = EditText_chat.getText().toString().trim(); // Get message and trim whitespace
+                String msg = EditText_chat.getText().toString().trim();
                 if (!msg.isEmpty()) {
                     Map<String, String> chat = new HashMap<>();
                     chat.put("nickname", nick);
                     chat.put("message", msg);
-                    myRef.push().setValue(chat); // Push message to Firebase
-                    EditText_chat.setText(""); // Clear input field
+                    myRef.child("messages").push().setValue(chat);
+                    EditText_chat.setText("");
                 }
             }
         });
 
         // Firebase ChildEventListener to listen for new messages
-        myRef.addChildEventListener(new ChildEventListener() {
+        myRef.child("messages").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Map<String, String> chat = (Map<String, String>) dataSnapshot.getValue();
                 if (chat != null) {
                     chatList.add(chat);
-                    mAdapter.notifyItemInserted(chatList.size() - 1); // Notify adapter of new item
-                    mRecyclerView.scrollToPosition(chatList.size() - 1); // Scroll to bottom
+                    mAdapter.notifyItemInserted(chatList.size() - 1);
+                    mRecyclerView.scrollToPosition(chatList.size() - 1);
                 }
             }
 
@@ -131,5 +130,94 @@ public class chat2 extends AppCompatActivity {
                 // Handle database errors
             }
         });
+
+        // Add user to chat room
+        addUserToChatRoom();
+
+        // Set up listener for the participant list image
+        ImageView participantListImageView = findViewById(R.id.list);
+        participantListImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showParticipantDialog();
+            }
+        });
+    }
+
+    private void showParticipantDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_participants);
+
+        RecyclerView participantsRecyclerView = dialog.findViewById(R.id.participants2);
+        participantsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        List<String> participantList = new ArrayList<>();
+        ParticipantAdapter participantAdapter = new ParticipantAdapter(participantList);
+        participantsRecyclerView.setAdapter(participantAdapter);
+
+        // Firebase에서 참여자 목록을 가져와서 RecyclerView에 업데이트
+        myRef.child("participants").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                participantList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String participantName = snapshot.getKey();
+                    participantList.add(participantName);
+                }
+                participantAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle database errors
+            }
+        });
+
+        Button leaveButton = dialog.findViewById(R.id.leave);
+        leaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isLeaving = true;
+                removeUserFromChatRoom();
+                dialog.dismiss();
+                finish(); // 채팅방 나가기
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void addUserToChatRoom() {
+        // Add the user to the participants node
+        myRef.child("participants").child(nick).setValue(true);
+    }
+
+    private void removeUserFromChatRoom() {
+        // Remove the user from the participants node
+        myRef.child("participants").child(nick).removeValue();
+
+        // Remove the chat room if no participants are left
+        myRef.child("participants").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    // No participants left, remove the chat room
+                    myRef.removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle database errors
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (isLeaving) {
+            removeUserFromChatRoom();
+        }
     }
 }

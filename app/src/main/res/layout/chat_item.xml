@@ -1,27 +1,59 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="end"
-    android:padding="8dp">
+    android:padding="10dp">
 
-    <!-- 내 채팅방 표시 -->
+    <!-- 채팅 화면 리사이클러뷰 아이템 -->
 
-    <TextView
-        android:id="@+id/nicknameTextView"
+    <!-- 상대방의 메시지 레이아웃 -->
+    <LinearLayout
+        android:id="@+id/left_chat_bubble"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textColor="#FF6200EE"
-        android:paddingBottom="4dp"/>
-
-    <TextView
-        android:id="@+id/messageTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="50dp"
+        android:orientation="vertical"
+        android:visibility="gone"
         android:background="@drawable/my_message_background"
-        android:padding="8dp"
-        android:textColor="#000000"/>
-</LinearLayout>
+        android:padding="10dp">
 
+        <TextView
+            android:id="@+id/left_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/left_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <!-- 내 메시지 레이아웃 -->
+    <LinearLayout
+        android:id="@+id/right_chat_bubble"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="50dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:background="@drawable/my_message_background"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/right_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/right_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black" />
+    </LinearLayout>
+</RelativeLayout>

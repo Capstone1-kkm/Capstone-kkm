@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,6 +39,8 @@ public class info extends AppCompatActivity {
     private TextView storeNameTextView;
     public static final String PREFS_NAME = "wishlist_prefs";
     public static final String KEY_WISHLIST_ITEMS = "wishlist_items";
+    public static final String LISTPREFS_NAME = "chat_list_pref";
+    public static final String KEY_CHAT_LIST = "chat_list";
     private String popupStoreName;
     private ImageView wishhearttImageView;
 
@@ -91,14 +95,8 @@ public class info extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (popupStoreName != null) {
-                    // SharedPreferences에 팝업 스토어 이름을 저장
-                    SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-                    Set<String> chatListItems = sharedPreferences.getStringSet(KEY_WISHLIST_ITEMS, new HashSet<String>());
-                    chatListItems.add(popupStoreName);
-
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putStringSet(KEY_WISHLIST_ITEMS, chatListItems);
-                    editor.apply();
+                    // 채팅 목록에 채팅방 추가
+                    addChatRoomToPreferences(popupStoreName);
 
                     // 채팅 화면으로 이동하는 Intent를 생성합니다.
                     Intent intent = new Intent(info.this, chat2.class);
@@ -109,6 +107,7 @@ public class info extends AppCompatActivity {
                 }
             }
         });
+
 
         // 팝업 홈페이지 클릭 이벤트 설정
         TextView websiteTextView = findViewById(R.id.websiteTextView);
@@ -138,6 +137,23 @@ public class info extends AppCompatActivity {
             }
         });
     }
+    private void addChatRoomToPreferences(String chatRoomName) {
+        SharedPreferences sharedPreferences = getSharedPreferences(LISTPREFS_NAME, Context.MODE_PRIVATE);
+        // 이전에 저장된 채팅 목록을 불러옵니다.
+        Set<String> chatList = sharedPreferences.getStringSet(KEY_CHAT_LIST, new HashSet<>());
+
+        // 새로운 채팅방을 목록에 추가합니다.
+        chatList.add(chatRoomName);
+
+        // 수정된 목록을 다시 SharedPreferences에 저장합니다.
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putStringSet(KEY_CHAT_LIST, chatList);
+        editor.apply(); // 변경 사항을 적용합니다.
+
+        // 추가 완료 메시지 표시
+        Toast.makeText(info.this, "Added to chat list", Toast.LENGTH_SHORT).show();
+    }
+
 
     private void saveToDatabase() {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();

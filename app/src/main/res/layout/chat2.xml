@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/chattingroom2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
             android:id="@+id/chattingroom"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:src="@drawable/arrow2" />
 
         <TextView
@@ -27,8 +27,17 @@
             android:layout_marginTop="6dp"
             android:layout_marginLeft="50dp"
             android:gravity="center"
+            android:text="hello"
             android:layout_centerHorizontal="true"/>
-    </LinearLayout>
+
+        <ImageView
+            android:id="@+id/list"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="375dp"
+            android:src="@drawable/list_line" />
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"

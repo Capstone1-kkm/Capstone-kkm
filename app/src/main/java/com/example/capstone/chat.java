@@ -16,8 +16,8 @@ import java.util.Set;
 
 public class chat extends AppCompatActivity {
 
-    private static final String PREFS_NAME = "wishlist_prefs";
-    private static final String KEY_CHAT_LIST_ITEMS = "chat_list_items";
+    private static final String PREFS_NAME = "chat_list_pref";
+    private static final String KEY_CHAT_LIST = "chat_list";
     private ListView chatListView;
     private ArrayAdapter<String> adapter;
     private ArrayList<String> chatListItems;
@@ -91,9 +91,18 @@ public class chat extends AppCompatActivity {
         chatListView.setAdapter(adapter);
     }
 
+    // 새로운 채팅을 채팅 목록에 추가하는 메서드
+    private void addChatList(String chat) {
+        if (!chatListItems.contains(chat)) {
+            chatListItems.add(chat);
+            adapter.notifyDataSetChanged();
+            saveChatList();
+        }
+    }
+
     private void loadChatList() {
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        Set<String> chatList = sharedPreferences.getStringSet(KEY_CHAT_LIST_ITEMS, null);
+        Set<String> chatList = sharedPreferences.getStringSet(KEY_CHAT_LIST, null);
 
         if (chatList != null) {
             chatListItems.addAll(chatList);
@@ -104,16 +113,7 @@ public class chat extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Set<String> chatListSet = new HashSet<>(chatListItems);
-        editor.putStringSet(KEY_CHAT_LIST_ITEMS, chatListSet);
+        editor.putStringSet(KEY_CHAT_LIST, chatListSet);
         editor.apply();
-    }
-
-    // 새로운 스토어 이름을 추가하고 저장하는 메서드 예시
-    private void addStoreToChatList(String storeName) {
-        if (!chatListItems.contains(storeName)) {
-            chatListItems.add(storeName);
-            adapter.notifyDataSetChanged();
-            saveChatList();
-        }
     }
 }
