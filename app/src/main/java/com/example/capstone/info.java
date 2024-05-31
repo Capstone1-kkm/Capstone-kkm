@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +33,9 @@ import java.util.Set;
 
 
 public class info extends AppCompatActivity {
+    private ImageView wishheart;
+    private boolean isWished = false;
+    private String itemId = "popup_info";
     private DatabaseReference mDatabase;
     private String tableName;
     private String imageFileName;
@@ -43,12 +48,15 @@ public class info extends AppCompatActivity {
     public static final String KEY_CHAT_LIST = "chat_list";
     private String popupStoreName;
     private ImageView wishhearttImageView;
+    public static final String KEY_WISHHEART_STATE = "wishheart_state";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.info);
 
+        wishheart= findViewById(R.id.wishheart);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         tableName = getIntent().getStringExtra("tableName");
@@ -153,33 +161,91 @@ public class info extends AppCompatActivity {
         // 추가 완료 메시지 표시
         Toast.makeText(info.this, "Added to chat list", Toast.LENGTH_SHORT).show();
     }
-
-
     private void saveToDatabase() {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        // 현재 로그인한 사용자의 UID 가져오기
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference userWishlistRef = FirebaseDatabase.getInstance().getReference("users").child(userId).child("wishlist");
 
-        // 정보를 저장할 새로운 데이터베이스 참조 생성
-        String key = databaseReference.child("wishlist").push().getKey();
+        // 팝업 정보를 가져와서 데이터베이스에 저장할 준비
+        mDatabase.child(tableName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // 팝업 정보에서 title과 location을 가져옴
+                    String title = dataSnapshot.child("title").getValue(String.class);
+                    String location = dataSnapshot.child("location").getValue(String.class);
 
-        // 데이터베이스에 저장할 정보 설정 (예: 팝업 스토어 이름)
-        String popupStoreName = "YourPopupStoreName";
+                    // 해당 사용자의 위시리스트를 확인하여 팝업 스토어의 존재 여부를 결정
+                    userWishlistRef.orderByChild("title").equalTo(title).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            // 팝업 스토어가 wishlist에 있는 경우
+                            if (snapshot.exists()) {
+                                // wishlist에서 팝업 스토어를 제거
+                                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                                    childSnapshot.getRef().removeValue();
+                                }
+                                // wishheart 상태를 wishheart로 변경
+                                wishhearttImageView.setImageResource(R.drawable.wishheart);
+                                wishhearttImageView.setTag("wishheart");
+                                // wishheart 상태를 영구적으로 저장
+                                saveWishheartState(false);
+                                Toast.makeText(info.this, "Item removed from your wishlist", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // wishlist에 팝업 스토어를 추가
+                                String key = userWishlistRef.push().getKey();
+                                userWishlistRef.child(key).child("title").setValue(title);
+                                userWishlistRef.child(key).child("location").setValue(location);
+                                // wishheart 상태를 wishheart2로 변경
+                                wishhearttImageView.setImageResource(R.drawable.wishheart2);
+                                wishhearttImageView.setTag("wishheart2");
+                                // wishheart 상태를 영구적으로 저장
+                                saveWishheartState(true);
+                                Toast.makeText(info.this, "Wishlist item added to your list", Toast.LENGTH_SHORT).show();
+                            }
+                        }
 
-        // 데이터베이스에 정보 저장
-        databaseReference.child("wishlist").child(key).setValue(popupStoreName)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // 저장 성공 시 실행할 코드 (예: 토스트 메시지 표시)
-                        Toast.makeText(info.this, "Wishlist item added to database", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // 저장 실패 시 실행할 코드 (예: 토스트 메시지 표시)
-                        Toast.makeText(info.this, "Failed to add wishlist item to database", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(info.this, "Failed to check your wishlist", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(info.this, "Failed to load popup info.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
+
+    // wishheart 상태를 영구적으로 저장
+    private void saveWishheartState(boolean isWished) {
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(KEY_WISHHEART_STATE, isWished);
+        editor.apply();
+
+        Log.d("WishheartState", "Wishheart state saved: " + isWished);
+    }
+
+    // wishheart 상태를 불러오기
+    private boolean loadWishheartState() {
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(KEY_WISHHEART_STATE, false);
+    }
+
+
+    private void addToWishlist(String itemId) {
+        DatabaseReference wishlistRef = FirebaseDatabase.getInstance().getReference("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("wishlist")
+                .child(itemId);
+        wishlistRef.setValue(true);
     }
 
     private void loadPopupInfo() {
@@ -232,28 +298,6 @@ public class info extends AppCompatActivity {
             }
         });
     }
-
-    private void addToWishlist() {
-        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        Set<String> wishlistItems = sharedPreferences.getStringSet(KEY_WISHLIST_ITEMS, new HashSet<String>());
-        wishlistItems.add(popupStoreName);
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putStringSet(KEY_WISHLIST_ITEMS, wishlistItems);
-        editor.apply();
-
-        Toast.makeText(info.this, "Added to wishlist", Toast.LENGTH_SHORT).show();
-    }
-
-    private void removeFromWishlist() {
-        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        Set<String> wishlistItems = sharedPreferences.getStringSet(KEY_WISHLIST_ITEMS, new HashSet<String>());
-        wishlistItems.remove(popupStoreName);
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putStringSet(KEY_WISHLIST_ITEMS, wishlistItems);
-        editor.apply();
-
-        Toast.makeText(info.this, "Removed from wishlist", Toast.LENGTH_SHORT).show();
-    }
 }
+
+
