@@ -174,48 +174,93 @@ public class info extends AppCompatActivity {
                     // 팝업 정보에서 title과 location을 가져옴
                     String title = dataSnapshot.child("title").getValue(String.class);
                     String location = dataSnapshot.child("location").getValue(String.class);
+                    String imageFileName = getIntent().getStringExtra("imageFileName"); // 인텐트에서 직접 이미지 파일 이름을 가져옴
 
-                    // 해당 사용자의 위시리스트를 확인하여 팝업 스토어의 존재 여부를 결정
-                    userWishlistRef.orderByChild("title").equalTo(title).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            // 팝업 스토어가 wishlist에 있는 경우
-                            if (snapshot.exists()) {
-                                // wishlist에서 팝업 스토어를 제거
-                                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-                                    childSnapshot.getRef().removeValue();
-                                }
-                                // wishheart 상태를 wishheart로 변경
-                                wishhearttImageView.setImageResource(R.drawable.wishheart);
-                                wishhearttImageView.setTag("wishheart");
-                                // wishheart 상태를 영구적으로 저장
-                                saveWishheartState(false);
-                                Toast.makeText(info.this, "Item removed from your wishlist", Toast.LENGTH_SHORT).show();
-                            } else {
-                                // wishlist에 팝업 스토어를 추가
-                                String key = userWishlistRef.push().getKey();
-                                userWishlistRef.child(key).child("title").setValue(title);
-                                userWishlistRef.child(key).child("location").setValue(location);
-                                // wishheart 상태를 wishheart2로 변경
-                                wishhearttImageView.setImageResource(R.drawable.wishheart2);
-                                wishhearttImageView.setTag("wishheart2");
-                                // wishheart 상태를 영구적으로 저장
-                                saveWishheartState(true);
-                                Toast.makeText(info.this, "Wishlist item added to your list", Toast.LENGTH_SHORT).show();
+                    if (imageFileName != null && !imageFileName.isEmpty()) {
+                        // Firebase Storage에서 이미지 URL을 가져옴
+                        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(imageFileName);
+                        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                String imageUrl = uri.toString();
+
+                                // 해당 사용자의 위시리스트를 확인하여 팝업 스토어의 존재 여부를 결정
+                                userWishlistRef.orderByChild("title").equalTo(title).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if (snapshot.exists()) {
+                                            // wishlist에서 팝업 스토어를 제거
+                                            for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                                                childSnapshot.getRef().removeValue();
+                                            }
+                                            // wishheart 상태를 wishheart로 변경
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    wishhearttImageView.setImageResource(R.drawable.wishheart);
+                                                    wishhearttImageView.setTag("wishheart");
+                                                    // wishheart 상태를 영구적으로 저장
+                                                    saveWishheartState(false);
+                                                    Toast.makeText(info.this, "Item removed from your wishlist", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        } else {
+                                            // wishlist에 팝업 스토어를 추가
+                                            String key = userWishlistRef.push().getKey();
+                                            userWishlistRef.child(key).child("title").setValue(title);
+                                            userWishlistRef.child(key).child("location").setValue(location);
+                                            userWishlistRef.child(key).child("imageUrl").setValue(imageUrl);
+
+                                            // wishheart 상태를 wishheart2로 변경
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    wishhearttImageView.setImageResource(R.drawable.wishheart2);
+                                                    wishhearttImageView.setTag("wishheart2");
+                                                    // wishheart 상태를 영구적으로 저장
+                                                    saveWishheartState(true);
+                                                    Toast.makeText(info.this, "Wishlist item added to your list", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(info.this, "Failed to check your wishlist", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                });
                             }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(info.this, "Failed to check your wishlist", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(info.this, "Failed to load image.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        Toast.makeText(info.this, "Image file name is missing.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(info.this, "Failed to load popup info.", Toast.LENGTH_SHORT).show();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(info.this, "Failed to load popup info.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
@@ -299,5 +344,7 @@ public class info extends AppCompatActivity {
         });
     }
 }
+
+
 
 
