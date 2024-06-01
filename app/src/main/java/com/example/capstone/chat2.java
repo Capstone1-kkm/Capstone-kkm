@@ -81,7 +81,8 @@ public class chat2 extends AppCompatActivity {
 
         // Firebase database reference
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("chats").child(popupStoreName);
+        String sanitizedPopupStoreName = sanitizeFirebasePath(popupStoreName);  // 경로를 정리
+        myRef = database.getReference("chats").child(sanitizedPopupStoreName);
 
         // Send button click listener
         send.setOnClickListener(new View.OnClickListener() {
@@ -144,6 +145,15 @@ public class chat2 extends AppCompatActivity {
         });
     }
 
+    //파이어베이스 데이터베이스에서 허용되지 않는 문자를 "_"로 대체
+    private String sanitizeFirebasePath(String path) {
+        return path.replace(".", "_")
+                .replace("#", "_")
+                .replace("$", "_")
+                .replace("[", "_")
+                .replace("]", "_");
+    }
+
     private void showParticipantDialog() {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_participants);
@@ -202,21 +212,7 @@ public class chat2 extends AppCompatActivity {
         // Remove the user from the participants node
         myRef.child("participants").child(nick).removeValue();
 
-        // Remove the chat room if no participants are left
-        myRef.child("participants").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.exists()) {
-                    // No participants left, remove the chat room
-                    myRef.removeValue();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle database errors
-            }
-        });
+        // 채팅방을 삭제하는 부분을 제거하여 메시지가 남아있도록 합니다.
     }
 
     @Override
