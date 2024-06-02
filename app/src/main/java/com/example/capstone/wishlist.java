@@ -16,12 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.model.Marker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class wishlist extends AppCompatActivity {
@@ -88,79 +88,48 @@ public class wishlist extends AppCompatActivity {
         // 위시리스트 항목 클릭 이벤트 설정
         wishlistItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                DatabaseReference userWishlistRef = FirebaseDatabase.getInstance().getReference("users").child(userId).child("wishlist");
-                userWishlistRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                String wishlistTitle = snapshot.child("title").getValue(String.class);
-                                if (wishlistTitle.equals(title)) {
-                                    Log.d(TAG, "Matching wishlist item found: " + wishlistTitle);
-                                    // 위시리스트의 제목과 동일한 title을 가진 데이터를 popup_info 테이블에서 찾음
-                                    DatabaseReference popupRef = FirebaseDatabase.getInstance().getReference("popup_info");
-                                    Query query = popupRef.orderByChild("title").equalTo(title);
-                                    query.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            if (dataSnapshot.exists()) {
-                                                Log.d(TAG, "Popup info found for title: " + title);
-                                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                                    // 해당 팝업 스토어의 정보를 가져와서 Bundle에 담기
-                                                    String date = snapshot.child("date").getValue(String.class);
-                                                    String description = snapshot.child("description").getValue(String.class);
-                                                    String hoursWeekday = snapshot.child("hours_weekday").getValue(String.class);
-                                                    String hoursWeekend = snapshot.child("hours_weekend").getValue(String.class);
-                                                    String website = snapshot.child("website").getValue(String.class);
-                                                    String instagram = snapshot.child("instagram").getValue(String.class);
-                                                    String instagramWebsite = snapshot.child("instagram_website").getValue(String.class);
-                                                    String popupWebsite = snapshot.child("popup_website").getValue(String.class);
+            public void onClick(View view) {
+                // 클릭한 뷰에서 제목 추출
+                TextView storeNameTextView = view.findViewById(R.id.popup_store_name);
+                String title = storeNameTextView.getText().toString();
 
-                                                    // 가져온 정보를 Bundle에 담아 info 액티비티로 전달
-                                                    Intent intent = new Intent(wishlist.this, info.class);
-                                                    intent.putExtra("title", title);
-                                                    intent.putExtra("location", location);
-                                                    intent.putExtra("date", date);
-                                                    intent.putExtra("description", description);
-                                                    intent.putExtra("hoursWeekday", hoursWeekday);
-                                                    intent.putExtra("hoursWeekend", hoursWeekend);
-                                                    intent.putExtra("website", website);
-                                                    intent.putExtra("instagram", instagram);
-                                                    intent.putExtra("instagramWebsite", instagramWebsite);
-                                                    intent.putExtra("popupWebsite", popupWebsite);
-                                                    startActivity(intent); // 인텐트를 시작합니다.
-                                                    return;
-                                                }
-                                            } else {
-                                                // 팝업 정보를 찾을 수 없는 경우 사용자에게 메시지 표시
-                                                Toast.makeText(wishlist.this, "해당 팝업 정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
-                                                Log.d(TAG, "Popup info not found for title: " + title);
-                                            }
-                                        }
+                Intent intent = new Intent(wishlist.this, info.class);
 
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                                            Toast.makeText(wishlist.this, "Failed to load popup info.", Toast.LENGTH_SHORT).show();
-                                            Log.e(TAG, "DatabaseError: " + databaseError.getMessage());
-                                        }
-                                    });
-                                    return; // 이미 매칭된 title을 찾았으므로 더 이상 반복할 필요가 없음
-                                }
-                            }
-                        }
-                        // 위시리스트에 해당 title이 없는 경우 사용자에게 메시지 표시
-                        Toast.makeText(wishlist.this, "해당 위시리스트 아이템을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "Matching wishlist item not found: " + title);
-                    }
+                // 제목에 따라 정보 전달
+                if ("A Cloud Traveler : 구름 위를 걷는 기분".equals(title)) {
+                    intent.putExtra("tableName", "popup_info");
+                    intent.putExtra("imageFileName", "store1.png");
+                } else if ("It's Your Day: 이번 광고, 생일 카페 주인공은 바로 너!".equals(title)) {
+                    intent.putExtra("tableName", "popup_info1");
+                    intent.putExtra("imageFileName", "store2.png");
+                } else if ("담곰이 카페".equals(title)) {
+                    intent.putExtra("tableName", "popup_info2");
+                    intent.putExtra("imageFileName", "store3.png");
+                } else if ("담곰이 팝업스토어 <봄날의 담곰이>".equals(title)) {
+                    intent.putExtra("tableName", "popup_info3");
+                    intent.putExtra("imageFileName", "store4.png");
+                } else if ("로에베 퍼퓸 팝업스토어".equals(title)) {
+                    intent.putExtra("tableName", "popup_info4");
+                    intent.putExtra("imageFileName", "store5.png");
+                } else if ("IKEA 팝업스토어 더현대 서울".equals(title)) {
+                    intent.putExtra("tableName", "popup_info5");
+                    intent.putExtra("imageFileName", "store6.png");
+                }else if ("엄브로 100주년 <MR.UM's CLEANERS>".equals(title)) {
+                    intent.putExtra("tableName", "popup_info6");
+                    intent.putExtra("imageFileName", "store7.png");
+                }else if ("블레스문 팝업스토어".equals(title)) {
+                    intent.putExtra("tableName", "popup_info7");
+                    intent.putExtra("imageFileName", "store8.png");
+                }else if ("요물, 우리를 홀린 고양이".equals(title)) {
+                    intent.putExtra("tableName", "popup_info8");
+                    intent.putExtra("imageFileName", "store9.png");
+                }else if ("달리기 : 새는 날고 물고기는 헤엄치고 인간은 달린다".equals(title)) {
+                    intent.putExtra("tableName", "popup_info9");
+                    intent.putExtra("imageFileName", "store10.png");
+                }
+                // 필요한 만큼 else if 블록을 추가하여 다른 마커 제목에 맞는 테이블 이름을 설정할 수 있음
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toast.makeText(wishlist.this, "Failed to load wishlist data", Toast.LENGTH_SHORT);
-                                Log.e(TAG, "DatabaseError: " + databaseError.getMessage());
-                    }
-                });
+                startActivity(intent);
             }
         });
 
@@ -175,4 +144,3 @@ public class wishlist extends AppCompatActivity {
         wishlistContainer.addView(wishlistItemLayout);
     }
 }
-
