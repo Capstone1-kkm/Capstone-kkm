@@ -23,8 +23,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class chat2 extends AppCompatActivity {
 
@@ -204,6 +206,9 @@ public class chat2 extends AppCompatActivity {
                 removeUserFromChatRoom(); // 채팅방에서 사용자 삭제
                 dialog.dismiss(); // 대화 상자 닫기
 
+                // 채팅 목록에서 항목 제거를 위해 SharedPreferences에 접근하여 제거
+                removeChatListFromPreferences(storeNameTextView.getText().toString());
+
                 // 채팅 목록에서 항목 제거를 위해 인텐트 설정
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("remove_chat_item", storeNameTextView.getText().toString());
@@ -228,6 +233,21 @@ public class chat2 extends AppCompatActivity {
         // 채팅방을 삭제하지 않고 메시지를 남겨두기 위해 해당 부분 제거
     }
 
+    // 채팅 목록에서 채팅 항목 삭제
+    private void removeChatListFromPreferences(String chat) {
+        SharedPreferences sharedPreferences = getSharedPreferences("chat_list_pref", Context.MODE_PRIVATE);
+        Set<String> chatListSet = sharedPreferences.getStringSet("chat_list", new HashSet<>());
+        if (chatListSet != null && chatListSet.contains(chat)) {
+            // 새로운 HashSet으로 복사하여 변경
+            Set<String> newChatListSet = new HashSet<>(chatListSet);
+            newChatListSet.remove(chat);
+            // 변경된 Set을 다시 저장
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putStringSet("chat_list", newChatListSet);
+            editor.apply();
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -235,5 +255,4 @@ public class chat2 extends AppCompatActivity {
             removeUserFromChatRoom(); // 액티비티가 종료되면서 나가기 플래그가 true일 경우 사용자를 채팅방에서 제거
         }
     }
-
 }

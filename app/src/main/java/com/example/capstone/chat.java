@@ -41,8 +41,6 @@ public class chat extends AppCompatActivity {
             }
         });
 
-
-
         findViewById(R.id.imageViewBottom2).setOnClickListener(v -> startActivity(new Intent(chat.this, googlemap.class)));
         findViewById(R.id.imageViewBottom3).setOnClickListener(v -> startActivity(new Intent(chat.this, home.class)));
         findViewById(R.id.imageViewBottom4).setOnClickListener(v -> startActivity(new Intent(chat.this, chat.class)));
