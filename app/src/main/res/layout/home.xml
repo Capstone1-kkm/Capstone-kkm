@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="415dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/store3" />
+                    android:src="@drawable/store4" />
             </ViewFlipper>
 
             <!-- 팝업스토어 리스트 -->
