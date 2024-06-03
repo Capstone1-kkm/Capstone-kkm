@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -204,41 +203,26 @@ public class info extends AppCompatActivity {
                                     }
 
                                     @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                Toast.makeText(info.this, "Failed to check your wishlist", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        Toast.makeText(info.this, "Failed to update wishlist", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception exception) {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(info.this, "Failed to load image.", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                                Toast.makeText(info.this, "Failed to retrieve image URL", Toast.LENGTH_SHORT).show();
                             }
                         });
                     } else {
-                        Toast.makeText(info.this, "Image file name is missing.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(info.this, "Image file name is null or empty", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(info.this, "Failed to load popup info.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                Toast.makeText(info.this, "Failed to retrieve data", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -252,21 +236,43 @@ public class info extends AppCompatActivity {
         Log.d("WishheartState", "Wishheart state saved: " + isWished);
     }
 
-    private boolean loadWishheartState() {
-        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(KEY_WISHHEART_STATE, false);
-    }
-
     private void checkWishheartState() {
-        boolean savedState = loadWishheartState();
-        if (savedState) {
-            wishhearttImageView.setImageResource(R.drawable.wishheart2);
-            wishhearttImageView.setTag("wishheart2");
-        } else {
-            wishhearttImageView.setImageResource(R.drawable.wishheart);
-            wishhearttImageView.setTag("wishheart");
-        }
-        isWished = savedState;
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference userWishlistRef = FirebaseDatabase.getInstance().getReference("users").child(userId).child("wishlist");
+
+        mDatabase.child(tableName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String title = dataSnapshot.child("title").getValue(String.class);
+
+                    userWishlistRef.orderByChild("title").equalTo(title).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                wishhearttImageView.setImageResource(R.drawable.wishheart2);
+                                wishhearttImageView.setTag("wishheart2");
+                                isWished = true;
+                            } else {
+                                wishhearttImageView.setImageResource(R.drawable.wishheart);
+                                wishhearttImageView.setTag("wishheart");
+                                isWished = false;
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.e("WishlistCheck", "Error checking wishlist state", error.toException());
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("PopupInfo", "Error fetching popup info", error.toException());
+            }
+        });
     }
 
     private void loadPopupInfo() {
@@ -298,7 +304,7 @@ public class info extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(info.this, "Failed to load data.", Toast.LENGTH_SHORT).show();
+                Log.e("PopupInfo", "Error fetching popup info", databaseError.toException());
             }
         });
     }
