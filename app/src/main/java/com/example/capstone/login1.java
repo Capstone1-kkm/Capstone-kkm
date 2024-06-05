@@ -20,11 +20,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class login1 extends AppCompatActivity {
 
-    // SharedPreferences를 이용하여 사용자 데이터 저장을 위한 상수 정의
-    private static final String PREF_NAME = "UserData";
-    private static final String KEY_EMAIL = "email";
-    private static final String KEY_PASSWORD = "password";
-
     // 이메일과 비밀번호를 입력 받을 EditText 위젯 변수 선언 (editTextEmail, editTextPassword)
     private EditText editTextEmail;
     private EditText editTextPassword;

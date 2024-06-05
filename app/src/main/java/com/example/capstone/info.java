@@ -32,15 +32,12 @@ import java.util.Set;
 public class info extends AppCompatActivity {
     private ImageView wishheart;
     private boolean isWished = false;
-    private String itemId = "popup_info";
     private DatabaseReference mDatabase;
     private String tableName;
     private String imageFileName;
     private String websiteLink;
     private String instagramLink;
-    private TextView storeNameTextView;
     public static final String PREFS_NAME = "wishlist_prefs";
-    public static final String KEY_WISHLIST_ITEMS = "wishlist_items";
     public static final String LISTPREFS_NAME = "chat_list_pref";
     public static final String KEY_CHAT_LIST = "chat_list";
     private String popupStoreName;
