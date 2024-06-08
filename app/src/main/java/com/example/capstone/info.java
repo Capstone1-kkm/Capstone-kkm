@@ -178,7 +178,7 @@ public class info extends AppCompatActivity {
                                                     wishhearttImageView.setImageResource(R.drawable.wishheart);
                                                     wishhearttImageView.setTag("wishheart");
                                                     saveWishheartState(false);
-                                                    Toast.makeText(info.this, "Item removed from your wishlist", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(info.this, "위시리스트에서 삭제되었습니다.", Toast.LENGTH_SHORT).show();
                                                 }
                                             });
                                         } else {
@@ -193,7 +193,7 @@ public class info extends AppCompatActivity {
                                                     wishhearttImageView.setImageResource(R.drawable.wishheart2);
                                                     wishhearttImageView.setTag("wishheart2");
                                                     saveWishheartState(true);
-                                                    Toast.makeText(info.this, "Wishlist item added to your list", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(info.this, "위시리스트에 추가되었습니다.", Toast.LENGTH_SHORT).show();
                                                 }
                                             });
                                         }
